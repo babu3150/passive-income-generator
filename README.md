@@ -1,2 +1,23 @@
-# passive-income-generator
-Stock Price Analysis and Forecasting
+# passive-income-generator（不労所得製造機）
+
+## これは何？
+
+## 開発の背景・目的
+
+## URL
+
+## テスト用アカウント
+
+## 主な機能
+
+## 各画面の操作説明
+
+## 使用技術
+
+## システム構成
+
+## 技術選定理由
+
+## 工夫した点
+
+## ローカル環境構築
