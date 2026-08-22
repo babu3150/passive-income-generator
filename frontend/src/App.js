@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import "./App.css";
+// ログインページ（ログイン画面）用コンポーネント
+import LoginPage from "./pages/LoginPage";
+// ホームページ（ホーム画面）用コンポーネント
+import HomePage from "./pages/HomePage";
 
 function App() {
+  // ログイン状態の管理用ステート（isLoggedInの真偽値で管理）
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // ログイン
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  // ログアウト
+  const handleLogout = async () => {
+    const response = await fetch("/api/logout", {
+      method: "POST",
+    });
+    if (response.ok) {
+      setIsLoggedIn(false);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* ログイン中はホーム画面、ログアウト中はログイン画面を表示 */}
+      {isLoggedIn ? (
+        <HomePage onLogout={handleLogout} />
+      ) : (
+        <LoginPage onLogin={handleLogin} />
+      )}
     </div>
   );
 }
