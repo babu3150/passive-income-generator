@@ -26,12 +26,14 @@ function App() {
 
   return (
     <div>
-      {/* ログイン中はホーム画面、ログアウト中はログイン画面を表示 */}
+      {/* ホーム画面の表示を確認するために一時的に変更 */}
+      <HomePage onLogout={handleLogout} />
+      {/* ログイン中はホーム画面、ログアウト中はログイン画面を表示
       {isLoggedIn ? (
         <HomePage onLogout={handleLogout} />
       ) : (
         <LoginPage onLogin={handleLogin} />
-      )}
+      )} */}
     </div>
   );
 }
