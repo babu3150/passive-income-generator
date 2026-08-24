@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-function HomePage() {
+function HomePage({ onLogout }) {
 
     // 買い候補
     const buyStock = {
