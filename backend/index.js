@@ -4,7 +4,7 @@ const session = require("express-session");
 const path = require("path");
 
 // ルートハンドラ用モジュールのインポート
-const routes = require("./routes");
+// const routes = require("./routes");
 
 // Expressアプリの使用
 const app = express();
