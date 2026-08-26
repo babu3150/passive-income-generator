@@ -3,7 +3,7 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 
-// ルートハンドラ用モジュールのインポート
+// ルートハンドラ用モジュールのインポート（ホーム画面をみるため一時的にコメントアウト）
 // const routes = require("./routes");
 
 // Expressアプリの使用
@@ -26,8 +26,8 @@ app.use(
 // frontend/build以下の静的ファイルを使用
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// "/api"パスに対するルートハンドラの設定
-app.use("/api", routes);
+// "/api"パスに対するルートハンドラの設定（ホーム画面をみるため一時的にコメントアウト）
+// app.use("/api", routes);
 
 // とくに指定がない場合はポート3000で起動する
 const PORT = process.env.PORT || 3000;
