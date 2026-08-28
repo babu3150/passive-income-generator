@@ -36,15 +36,12 @@ function HomePage({ onLogout }) {
     ];
 
     return (
-        <div>
-            <header>
-                <h2>不労所得製造機</h2>
-                <div>
-                    <h3>Aさん</h3>
-                    <button onClick={onLogout}>
-                        ログアウト
-                    </button>
-                </div>
+        <div className="home-page">
+            <header className="header">
+                <h2 className="header-title">不労所得製造機</h2>
+                <button className="logout" onClick={onLogout}>
+                    ログアウト
+                </button>
             </header>
 
             <section>

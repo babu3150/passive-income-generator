@@ -1,38 +1,61 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.home-page {
   min-height: 100vh;
+  /* 画像はあとで考える */
+  /* background-image: url("./images/wallpaper.png"); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.header {
+  height: 105px;
+  padding: 0 28px 0 55px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #1f3147;
+}
+
+button.logout {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-width: 195px;
+  height: 62px;
+  padding: 0 28px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f3147;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 2px solid #4b82c3;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
-.App-link {
-  color: #61dafb;
+button.logout:hover {
+  background-color: #eef6ff;
+  box-shadow: 0 4px 12px rgba(75, 130, 195, 0.25);
+  transform: translateY(-1px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button.logout:active {
+  transform: translateY(0);
 }
