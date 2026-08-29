@@ -1,7 +1,6 @@
 .home-page {
   min-height: 100vh;
-  /* 画像はあとで考える */
-  /* background-image: url("./images/wallpaper.png"); */
+  background-image: url("./images/stock-wallpaper.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
