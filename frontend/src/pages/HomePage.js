@@ -75,8 +75,8 @@ function HomePage({ onLogout }) {
                     </div>
 
                     {/* 売却検討 */}
-                    <div>
-                        <div className="recommendation-card sell-card">
+                    <div className="recommendation-card sell-card">
+                        <div className="recommendation-label">
                             🔴売却検討
                         </div>
 
@@ -125,7 +125,7 @@ function HomePage({ onLogout }) {
                             </span>
                         </div>
                     ))}
-                    
+
                 </div>
             </section>
         </div>
