@@ -44,45 +44,88 @@ function HomePage({ onLogout }) {
                 </button>
             </header>
 
-            <section>
-                <h2>🔥現在のおすすめ</h2>
-                <div>
+            <section className="recommendation-section">
+                <h2 className="section-title">
+                    🔥現在のおすすめ
+                </h2>
+
+                <div className="recommendation-list">
+
                     {/* 買い候補 */}
-                    <div>
-                        <div>🟢買い候補</div>
-                        <h3>{buyStock.name}</h3>
-                        <div>⭐{buyStock.score}点</div>
-                        <div>📈{buyStock.prediction}予想</div>
-                        <button>詳細をみる</button>
+                    <div className="recommendation-card buy-card">
+                        <div className="recommendation-label">
+                            🟢買い候補
+                        </div>
+
+                        <h3 className="stock-name">
+                            {buyStock.name}
+                        </h3>
+
+                        <div className="stock-score">
+                            ⭐{buyStock.score}点
+                        </div>
+
+                        <div className="stock-prediction positive">
+                            📈{buyStock.prediction}予想
+                        </div>
+
+                        <button type="button" className="detail-button">
+                            詳細をみる
+                        </button>
                     </div>
 
                     {/* 売却検討 */}
                     <div>
-                        <div>🔴売却検討</div>
-                        <h3>{sellStock.name}</h3>
-                        <div>⚠️{sellStock.score}点</div>
-                        <div>📉{sellStock.prediction}予想</div>
-                        <button>詳細をみる</button>
+                        <div className="recommendation-card sell-card">
+                            🔴売却検討
+                        </div>
+
+                        <h3 className="stock-name">
+                            {sellStock.name}
+                        </h3>
+
+                        <div className="stock-score">
+                            ⚠️{sellStock.score}点
+                        </div>
+
+                        <div className="stock-prediction negative">
+                            📉{sellStock.prediction}予想
+                        </div>
+
+                        <button type="button" className="detail-button">
+                            詳細をみる
+                        </button>
                     </div>
+
                 </div>
             </section>
 
-            <hr />
+            <hr className="section-divider" />
 
-            <section>
-                <h2>💰Aさんの保有株</h2>
-                <div>
+            <section className="holdings-section">
+
+                <h2 className="section-title">
+                    💰Aさんの保有株
+                </h2>
+
+                <div className="holdings-list">
+
                     {holdings.map((stock) => (
-                        <div>
-                            <span>{stock.name}</span>
-                            <span>
+                        <div className="holding-item" key={stock.name}>
+                            <span className="holding-stock-name">
+                                {stock.name}
+                            </span>
+
+                            <span className={`holding-status ${stock.type}`}>
                                 {stock.type === "buy" && "🟢"}
                                 {stock.type === "sell" && "🔴"}
                                 {stock.type === "hold" && "🟡"}
+
                                 {stock.status}
                             </span>
                         </div>
                     ))}
+                    
                 </div>
             </section>
         </div>
