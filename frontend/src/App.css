@@ -216,7 +216,11 @@ button.logout:active {
 }
 
 .holding-status {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .holding-status.buy {
@@ -229,6 +233,14 @@ button.logout:active {
 
 .holding-status.hold {
   color: #e0a500;
+}
+
+.holding-status .detail-button {
+  width: 120px;
+  min-width: 120px;
+  height: 40px;
+  padding: 0 15px;
+  white-space: nowrap;
 }
 
 /* スマホ幅用 */
@@ -275,5 +287,18 @@ button.logout:active {
     min-height: 54px; 
     padding: 0 15px;
     font-size: 15px;
+  }
+
+  .holding-status {
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .holding-status .detail-button {
+    width: 90px;
+    min-width: 90px;
+    height: 36px;
+    padding: 0 8px;
+    font-size: 13px;
   }
 }

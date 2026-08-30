@@ -122,6 +122,9 @@ function HomePage({ onLogout }) {
                                 {stock.type === "hold" && "🟡"}
 
                                 {stock.status}
+                                <button type="button" className="detail-button">
+                                    詳細をみる
+                                </button>
                             </span>
                         </div>
                     ))}
