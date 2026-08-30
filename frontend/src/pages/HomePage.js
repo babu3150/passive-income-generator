@@ -2,9 +2,12 @@ import React, {useState, useEffect} from "react";
 
 function HomePage({ onLogout }) {
 
+    // 仮データを表示
+
     // 買い候補
     const buyStock = {
         name: "トヨタ",
+        code: "7203",
         score: "92",
         prediction: "+7.6%",
     };
@@ -12,6 +15,7 @@ function HomePage({ onLogout }) {
     // 売却検討
     const sellStock = {
         name: "ソニー",
+        code: "6758",
         score: "82",
         prediction: "-5.2%",
     };
@@ -20,16 +24,19 @@ function HomePage({ onLogout }) {
     const holdings = [
         {
             name: "MUFG",
+            code: "8306",
             status: "保有継続",
             type: "buy",
         },
         {
             name: "ソニー",
+            code: "6758",
             status: "売却検討",
             type: "sell",
         },
         {
             name: "任天堂",
+            code: "7974",
             status: "様子見",
             type: "hold",
         },
@@ -58,7 +65,7 @@ function HomePage({ onLogout }) {
                         </div>
 
                         <h3 className="stock-name">
-                            {buyStock.name}
+                            {buyStock.name}（{buyStock.code}）
                         </h3>
 
                         <div className="stock-score">
@@ -81,7 +88,7 @@ function HomePage({ onLogout }) {
                         </div>
 
                         <h3 className="stock-name">
-                            {sellStock.name}
+                            {sellStock.name}（{sellStock.code}）
                         </h3>
 
                         <div className="stock-score">
@@ -113,7 +120,7 @@ function HomePage({ onLogout }) {
                     {holdings.map((stock) => (
                         <div className="holding-item" key={stock.name}>
                             <span className="holding-stock-name">
-                                {stock.name}
+                                {stock.name}（{stock.code}）
                             </span>
 
                             <span className={`holding-status ${stock.type}`}>
