@@ -6,7 +6,7 @@ function HomePage({ onLogout }) {
 
     // 買い候補
     const buyStock = {
-        name: "トヨタ",
+        name: "トヨタ自動車",
         code: "7203",
         score: "92",
         prediction: "+7.6%",
@@ -14,7 +14,7 @@ function HomePage({ onLogout }) {
 
     // 売却検討
     const sellStock = {
-        name: "ソニー",
+        name: "ソニーグループ",
         code: "6758",
         score: "82",
         prediction: "-5.2%",
@@ -23,13 +23,13 @@ function HomePage({ onLogout }) {
     // 保有株
     const holdings = [
         {
-            name: "MUFG",
+            name: "三菱UFJフィナンシャル・グループ",
             code: "8306",
             status: "保有継続",
             type: "buy",
         },
         {
-            name: "ソニー",
+            name: "ソニーグループ",
             code: "6758",
             status: "売却検討",
             type: "sell",
