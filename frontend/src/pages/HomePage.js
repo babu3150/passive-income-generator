@@ -9,6 +9,8 @@ function HomePage({ onLogout }) {
         name: "トヨタ自動車",
         code: "7203",
         score: "92",
+        currentPrice: "3,421",
+        predictedPrice: "3,680",
         prediction: "+7.6%",
     };
 
@@ -17,6 +19,8 @@ function HomePage({ onLogout }) {
         name: "ソニーグループ",
         code: "6758",
         score: "82",
+        currentPrice: "3,780",
+        predictedPrice: "3,620",
         prediction: "-5.2%",
     };
 
@@ -72,6 +76,16 @@ function HomePage({ onLogout }) {
                             ⭐{buyStock.score}点
                         </div>
 
+                        <div className="stock-price">
+                            <span>現在株価</span>
+                            <strong>{buyStock.currentPrice}円</strong>
+                        </div>
+
+                        <div className="stock-price">
+                            <span>AI予測株価</span>
+                            <strong>{buyStock.predictedPrice}円</strong>
+                        </div>
+
                         <div className="stock-prediction positive">
                             📈{buyStock.prediction}予想
                         </div>
@@ -93,6 +107,16 @@ function HomePage({ onLogout }) {
 
                         <div className="stock-score">
                             ⚠️{sellStock.score}点
+                        </div>
+
+                        <div className="stock-price">
+                            <span>現在株価</span>
+                            <strong>{sellStock.currentPrice}円</strong>
+                        </div>
+
+                        <div className="stock-price">
+                            <span>AI予測株価</span>
+                            <strong>{sellStock.predictedPrice}円</strong>
                         </div>
 
                         <div className="stock-prediction negative">

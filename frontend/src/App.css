@@ -133,6 +133,23 @@ button.logout:active {
   color: #333333;
 }
 
+.stock-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(240, 247, 253, 0.7);
+  font-size: 16px;
+  color: #526477;
+}
+
+.stock-price strong {
+  font-size: 19px;
+  color: #1f3854;
+}
+
 .stock-prediction {
   margin-bottom: 28px;
   font-size: 21px;
