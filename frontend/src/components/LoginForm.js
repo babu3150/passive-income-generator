@@ -27,8 +27,8 @@ function LoginForm({ onLogin }) {
 
     return (
         <form onSubmit={handleSubmit}>
-          <div>
-            <span>🙎</span>
+          <div className="login-input-group">
+            <span className="input-icon">🙎</span>
             <input
               type="text"
               value={username}
@@ -44,8 +44,8 @@ function LoginForm({ onLogin }) {
             />
           </div>
 
-          <div>
-            <span>🔒</span>
+          <div className="login-input-group">
+            <span className="input-icon">🔒</span>
             <input
               type="password"
               value={password}
@@ -61,7 +61,7 @@ function LoginForm({ onLogin }) {
             />
           </div>
 
-          <button type="submit">
+          <button type="submit" className="login-button">
             ログイン
           </button>
           {error && <p>{error}</p>}
