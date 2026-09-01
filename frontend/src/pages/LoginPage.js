@@ -5,21 +5,25 @@ import robotSignInImage from "../images/robot-signin.png";
 
 function LoginPage({ onLogin }) {
     return (
-        <div>
-            <div>
+        <div className="login-page">
+
+            <div className="login-logo">
                 <img src={logoImage} alt="不労所得製造機" />
             </div>
-            <div>
-                <div>
+
+            <div className="login-main">
+                <div className="login-card">
                     <h1>ログイン</h1>
                     <LoginForm onLogin={onLogin} />
-                    <div>
+                    <div className="signup-area">
                         <span>アカウントをお持ちでない方は</span>
-                        <button>新規登録</button>
+                        <button type="button" className="signup-button">
+                            新規登録
+                        </button>
                     </div>
                 </div>
 
-                <div>
+                <div className="login-robot">
                     <img src={robotSignInImage} alt="ロボット" />
                 </div>
             </div>
