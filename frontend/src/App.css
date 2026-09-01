@@ -447,6 +447,38 @@ button.logout:active {
 /* スマホ幅用 */
 @media (max-width: 900px) {
 
+  .login-page {
+    min-height: 100vh;
+    padding: 25px 15px 20px;
+    overflow-y: auto;
+  }
+
+  .login-logo img {
+    width: 360px;
+    max-width: 90vw;
+  }
+
+  .login-main {
+    flex-direction: column;
+    max-width: 440px;
+  }
+
+  .login-card {
+    width: 100%;
+    padding: 28px 22px;
+  }
+
+  .login-card h1 {
+    font-size: 28px;
+  }
+
+  .login-robot {
+    width: 280px;
+    margin-top: -20px;
+    margin-left: 80px;
+    margin-bottom: -20px;
+  }
+
   .home-page {
     margin: 25px auto;
     padding: 0 15px 40px;
