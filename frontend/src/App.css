@@ -4,6 +4,190 @@ body {
   background-attachment: fixed;
 }
 
+.login-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30px 20px 20px;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
+    url("./images/factory-wallpaper.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.login-logo {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.login-logo img {
+  display: block;
+  width: 520px;
+  max-width: 80vw;
+  height: auto;
+  object-fit: contain;
+}
+
+.login-main {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.login-card {
+  position: relative;
+  z-index: 3;
+  width: 440px;
+  padding: 35px;
+  box-sizing: border-box;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.login-card h1 {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #28772c;
+}
+
+.login-input-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 58px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-input-group:focus-within {
+  border-color: #2f8b35;
+  box-shadow: 0 0 0 3px rgba(47, 139, 53, 0.15);
+}
+
+.input-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  min-width: 55px;
+  font-size: 21px;
+  color: #555;
+}
+
+.login-input-group input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px 0 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 17px;
+  color: #333;
+}
+
+.login-input-group input::placeholder {
+  color: #999;
+}
+
+.login-button {
+  width: 100%;
+  height: 58px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #24852b;
+  color: #fff;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-button:hover {
+  background: #1d7023;
+  box-shadow: 0 5px 15px rgba(36, 133, 43, 0.35);
+  transform:  translateY(-1px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-robot {
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  margin-left: -25px;
+  margin-bottom: -60px;
+  pointer-events: none;
+}
+
+.login-robot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.35));
+}
+
+.signup-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 15px;
+  color: #444;
+}
+
+.signup-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #28732d;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.signup-button:hover {
+  color: #185c1d;
+}
+
 .home-page {
   min-height: 100vh;
   background-image: url("./images/stock-wallpaper.png");
