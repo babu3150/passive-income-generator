@@ -27,6 +27,8 @@ function LoginForm({ onLogin }) {
 
     return (
         <form onSubmit={handleSubmit}>
+          <div>
+            <span>🙎</span>
             <input
               type="text"
               value={username}
@@ -40,6 +42,10 @@ function LoginForm({ onLogin }) {
               placeholder="お名前"
               required
             />
+          </div>
+
+          <div>
+            <span>🔒</span>
             <input
               type="password"
               value={password}
@@ -53,10 +59,12 @@ function LoginForm({ onLogin }) {
               placeholder="パスワード"
               required
             />
-            <button type="submit">
-                ログイン
-            </button>
-            {error && <p>{error}</p>}
+          </div>
+
+          <button type="submit">
+            ログイン
+          </button>
+          {error && <p>{error}</p>}
         </form>
     );
 }
