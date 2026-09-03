@@ -9,6 +9,9 @@ function App() {
   // ログイン状態の管理用ステート（isLoggedInの真偽値で管理）
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // 現在ページの管理用ステート
+  const [page, setPage] = useState("login");
+
   // ログイン
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -26,11 +29,22 @@ function App() {
 
   return (
     <div>
-      {/* ログイン中はホーム画面、ログアウト中はログイン画面を表示 */}
-      {isLoggedIn ? (
-        <HomePage onLogout={handleLogout} />
+      {/* ログアウト中はログイン画面、ログイン中はホーム画面を表示 */}
+      {!isLoggedIn ? (
+        <>
+          {page === "login" && (
+            <LoginPage
+              onLogin={handleLogin}
+              onMoveSignup={() => setPage("signup")}
+            />
+          )}
+        </>
       ) : (
-        <LoginPage onLogin={handleLogin} />
+        <>
+          {page === "home" && (
+            <HomePage onLogout={handleLogout} />
+          )}
+        </>
       )}
     </div>
   );
