@@ -15,6 +15,7 @@ function App() {
   // ログイン
   const handleLogin = () => {
     setIsLoggedIn(true);
+    setPage("home");
   };
 
   // ログアウト
@@ -24,6 +25,7 @@ function App() {
     });
     if (response.ok) {
       setIsLoggedIn(false);
+      setPage("login");
     }
   };
 
