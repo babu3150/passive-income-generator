@@ -3,7 +3,7 @@ import LoginForm from "../components/LoginForm";
 import logoImage from "../images/app-logo.png";
 import robotSignInImage from "../images/robot-signin.png";
 
-function LoginPage({ onLogin }) {
+function LoginPage({ onLogin, onMoveSignup }) {
     return (
         <div className="login-page">
 
@@ -17,7 +17,7 @@ function LoginPage({ onLogin }) {
                     <LoginForm onLogin={onLogin} />
                     <div className="signup-area">
                         <span>アカウントをお持ちでない方は</span>
-                        <button className="signup-button">
+                        <button className="signup-button" onClick={onMoveSignup}>
                             新規登録
                         </button>
                     </div>
