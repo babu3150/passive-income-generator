@@ -27,8 +27,8 @@ function SignupForm({ onSignup }) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <span>🙎</span>
+            <div className="signup-input-group">
+                <span className="signup-icon">🙎</span>
                 <input
                     type="text"
                     value={username}
@@ -44,8 +44,8 @@ function SignupForm({ onSignup }) {
                 />
             </div>
 
-            <div>
-                <span>🔒</span>
+            <div className="signup-input-group">
+                <span className="input-icon">🔒</span>
                 <input
                     type="password"
                     value={password}
@@ -61,7 +61,7 @@ function SignupForm({ onSignup }) {
                 />
             </div>
 
-            <button type="submit">
+            <button type="submit" className="signup-button">
                 新規登録
             </button>
             {error && <p>{error}</p>}
