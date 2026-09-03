@@ -17,7 +17,7 @@ function SignupPage({ onSignup }) {
                     <SignupForm onSignup={onSignup} />
                     <div className="login-area">
                         <span>アカウントをお持ちの方は</span>
-                        <button type="button" className="login-button">
+                        <button className="login-button">
                             ログイン
                         </button>
                     </div>
