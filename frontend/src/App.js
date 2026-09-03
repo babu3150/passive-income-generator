@@ -4,6 +4,7 @@ import "./App.css";
 import LoginPage from "./pages/LoginPage";
 // ホームページ（ホーム画面）用コンポーネント
 import HomePage from "./pages/HomePage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   // ログイン状態の管理用ステート（isLoggedInの真偽値で管理）
@@ -29,6 +30,12 @@ function App() {
     }
   };
 
+  // ユーザー登録（登録後はホーム画面に遷移）
+  const handleSignup = () => {
+    setIsLoggedIn(true);
+    setPage("home");
+  };
+
   return (
     <div>
       {/* ログアウト中はログイン画面、ログイン中はホーム画面を表示 */}
@@ -38,6 +45,13 @@ function App() {
             <LoginPage
               onLogin={handleLogin}
               onMoveSignup={() => setPage("signup")}
+            />
+          )}
+
+          {page === "signup" && (
+            <SignupPage
+              onSignup={handleSignup}
+              onMoveLogin={() => setPage("login")}
             />
           )}
         </>
