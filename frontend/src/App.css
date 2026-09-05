@@ -43,11 +43,18 @@ button.signup:hover {
   transform: translateY(-1px);
 }
 
-.login-link-button,
+.login-link-button {
+  width: auto;
+  background: transparent;
+  color: #4285c5;
+  font-size: 15px;
+  text-decoration: underline;
+}
+
 .signup-link-button {
   width: auto;
   background: transparent;
-  color: #28732d;
+  color: #e89b3a;
   font-size: 15px;
   text-decoration: underline;
 }
@@ -143,13 +150,20 @@ button.logout:hover {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
-.login-card h1,
+.login-card h1 {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #4285c5;
+}
+
 .signup-card h1 {
   margin: 0 0 28px;
   text-align: center;
   font-size: 32px;
   font-weight: 700;
-  color: #28772c;
+  color: #e89b3a;
 }
 
 .login-input-group,
