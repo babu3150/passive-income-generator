@@ -61,7 +61,7 @@ function SignupForm({ onSignup }) {
                 />
             </div>
 
-            <button type="submit" className="signup-button">
+            <button type="submit" className="signup">
                 新規登録
             </button>
             {error && <p>{error}</p>}

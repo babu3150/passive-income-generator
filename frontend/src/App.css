@@ -4,6 +4,82 @@ body {
   background-attachment: fixed;
 }
 
+button {
+  width: 100%;
+  height: 58px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button.login {
+  background-color: #4285c5;
+}
+
+button.login:hover {
+  background-color: #3273b3;
+  box-shadow: 0 5px 15px rgba(36, 133, 43, 0.35);
+  transform: translateY(-1px);
+}
+
+button.signup {
+  background-color: #e89b3a;
+}
+
+button.signup:hover {
+  background-color: #d98620;
+  box-shadow: 0 5px 15px rgba(36, 133, 43, 0.35);
+  transform: translateY(-1px);
+}
+
+.login-link-button,
+.signup-link-button {
+  width: auto;
+  background: transparent;
+  color: #28732d;
+  font-size: 15px;
+  text-decoration: underline;
+}
+
+button.logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 195px;
+  padding: 0 28px;
+  color: #1f3147;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 2px solid #4b82c3;
+  cursor: pointer;
+}
+
+button.logout:hover {
+  background-color: #eef6ff;
+  box-shadow: 0 4px 12px rgba(75, 130, 195, 0.25);
+  transform:  translateY(-1px);
+}
+
+.detail-button {
+  background-color: #4b82c3;
+}
+
+.detail-button:hover {
+  background-color: #3974b5;
+  box-shadow: 0 4px 10px rgba(75, 130, 195, 0.3);
+  transform:  translateY(-1px);
+}
+
 .login-page,
 .signup-page {
   position: relative;
@@ -128,36 +204,6 @@ body {
   color: #999;
 }
 
-.login-button,
-.signup-button {
-  width: 100%;
-  height: 58px;
-  margin-top: 5px;
-  border: none;
-  border-radius: 8px;
-  background: #24852b;
-  color: #fff;
-  font-size: 19px;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.login-button:hover,
-.signup-button:hover {
-  background: #1d7023;
-  box-shadow: 0 5px 15px rgba(36, 133, 43, 0.35);
-  transform:  translateY(-1px);
-}
-
-.login-button:active,
-.signup-button:active {
-  transform: translateY(0);
-}
-
 .login-robot,
 .signup-robot {
   position: relative;
@@ -190,23 +236,6 @@ body {
   color: #444;
 }
 
-.login-link-button,
-.signup-link-button {
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #28732d;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.login-button:hover,
-.signup-button:hover {
-  background-color: #185c1d;
-}
-
 .home-page {
   min-height: 100vh;
   background-image: url("./images/stock-wallpaper.png");
@@ -236,36 +265,6 @@ body {
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #1f3147;
-}
-
-button.logout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 195px;
-  height: 62px;
-  padding: 0 28px;
-  font-size: 24px;
-  font-weight: 600;
-  color: #1f3147;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 2px solid #4b82c3;
-  border-radius: 12px;
-  cursor: pointer;
-  transition:
-    background-color 0.2s,
-    transform 0.2s,
-    box-shadow 0.2s;
-}
-
-button.logout:hover {
-  background-color: #eef6ff;
-  box-shadow: 0 4px 12px rgba(75, 130, 195, 0.25);
-  transform: translateY(-1px);
-}
-
-button.logout:active {
-  transform: translateY(0);
 }
 
 .recommendation-section {
@@ -365,32 +364,6 @@ button.logout:active {
 
 .stock-prediction.negative {
   color: #e53935;
-}
-
-.detail-button {
-  width: 100%;
-  height: 48px;
-  border: none;
-  border-radius: 8px;
-  background: #4b82c3;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-      background-color 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-}
-
-.detail-button:hover {
-  background: #3974b5;
-  box-shadow: 0 4px 10px rgba(75, 130, 195, 0.3);
-  transform: translateY(-1px);
-}
-
-.detail-button:active {
-  transform: translateY(0);
 }
 
 .section-divider {

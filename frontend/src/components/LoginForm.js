@@ -61,7 +61,7 @@ function LoginForm({ onLogin }) {
             />
           </div>
 
-          <button type="submit" className="login-button">
+          <button type="submit" className="login">
             ログイン
           </button>
           {error && <p>{error}</p>}
