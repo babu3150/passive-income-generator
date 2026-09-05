@@ -4,7 +4,8 @@ body {
   background-attachment: fixed;
 }
 
-.login-page {
+.login-page,
+.signup-page {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -22,14 +23,16 @@ body {
   overflow: hidden;
 }
 
-.login-logo {
+.login-logo,
+.signup-logo {
   position: relative;
   z-index: 2;
   text-align: center;
   margin-top: 5px;
 }
 
-.login-logo img {
+.login-logo img,
+.signup-logo img {
   display: block;
   width: 520px;
   max-width: 80vw;
@@ -37,7 +40,8 @@ body {
   object-fit: contain;
 }
 
-.login-main {
+.login-main,
+.signup-main {
   position: relative;
   z-index: 2;
   width: 100%;
@@ -48,7 +52,8 @@ body {
   gap: 0;
 }
 
-.login-card {
+.login-card,
+.signup-card {
   position: relative;
   z-index: 3;
   width: 440px;
@@ -62,7 +67,8 @@ body {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
-.login-card h1 {
+.login-card h1,
+.signup-card h1 {
   margin: 0 0 28px;
   text-align: center;
   font-size: 32px;
@@ -70,7 +76,8 @@ body {
   color: #28772c;
 }
 
-.login-input-group {
+.login-input-group,
+.signup-input-group {
   display: flex;
   align-items: center;
   width: 100%;
@@ -85,12 +92,14 @@ body {
     box-shadow 0.2s ease;
 }
 
-.login-input-group:focus-within {
+.login-input-group:focus-within,
+.signup-input-group:focus-within {
   border-color: #2f8b35;
   box-shadow: 0 0 0 3px rgba(47, 139, 53, 0.15);
 }
 
-.input-icon {
+.input-icon,
+.signup-icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,7 +109,8 @@ body {
   color: #555;
 }
 
-.login-input-group input {
+.login-input-group input,
+.signup-input-group input {
   flex: 1;
   width: 100%;
   height: 100%;
@@ -113,11 +123,13 @@ body {
   color: #333;
 }
 
-.login-input-group input::placeholder {
+.login-input-group input::placeholder,
+.signup-input-group input::placeholder {
   color: #999;
 }
 
-.login-button {
+.login-button,
+.signup-button {
   width: 100%;
   height: 58px;
   margin-top: 5px;
@@ -134,26 +146,30 @@ body {
     box-shadow 0.2s ease;
 }
 
-.login-button:hover {
+.login-button:hover,
+.signup-button:hover {
   background: #1d7023;
   box-shadow: 0 5px 15px rgba(36, 133, 43, 0.35);
   transform:  translateY(-1px);
 }
 
-.login-button:active {
+.login-button:active,
+.signup-button:active {
   transform: translateY(0);
 }
 
-.login-robot {
+.login-robot,
+.signup-robot {
   position: relative;
   z-index: 2;
   width: 420px;
-  margin-left: -25px;
+  margin-left: 10px;
   margin-bottom: -60px;
   pointer-events: none;
 }
 
-.login-robot img {
+.login-robot img,
+.signup-robot img {
   display: block;
   width: 100%;
   height: auto;
@@ -161,7 +177,8 @@ body {
   filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.35));
 }
 
-.signup-area {
+.login-area,
+.signup-area { 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,7 +190,8 @@ body {
   color: #444;
 }
 
-.signup-button {
+.login-link-button,
+.signup-link-button {
   padding: 0;
   border: none;
   background: transparent;
@@ -184,8 +202,9 @@ body {
   text-decoration: underline;
 }
 
+.login-button:hover,
 .signup-button:hover {
-  color: #185c1d;
+  background-color: #185c1d;
 }
 
 .home-page {
@@ -447,32 +466,38 @@ button.logout:active {
 /* スマホ幅用 */
 @media (max-width: 900px) {
 
-  .login-page {
+  .login-page,
+  .signup-page {
     min-height: 100vh;
     padding: 25px 15px 20px;
     overflow-y: auto;
   }
 
-  .login-logo img {
+  .login-logo img,
+  .signup-logo img {
     width: 360px;
     max-width: 90vw;
   }
 
-  .login-main {
+  .login-main,
+  .signup-main {
     flex-direction: column;
     max-width: 440px;
   }
 
-  .login-card {
+  .login-card,
+  .signup-card {
     width: 100%;
     padding: 28px 22px;
   }
 
-  .login-card h1 {
+  .login-card h1,
+  .signup-card h1 {
     font-size: 28px;
   }
 
-  .login-robot {
+  .login-robot,
+  .signup-robot {
     width: 280px;
     margin-top: -20px;
     margin-left: 80px;
