@@ -464,6 +464,7 @@ button.logout:hover {
   .signup-logo img {
     width: 360px;
     max-width: 90vw;
+    margin-bottom: 20px;
   }
 
   .login-main,
@@ -486,8 +487,7 @@ button.logout:hover {
   .login-robot,
   .signup-robot {
     width: 280px;
-    margin-top: -20px;
-    margin-left: 80px;
+    margin-top: 20px;
     margin-bottom: -20px;
   }
 
