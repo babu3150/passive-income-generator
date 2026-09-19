@@ -135,14 +135,14 @@ CREATE INDEX IF NOT EXISTS idx_stock_prices_stock_id ON stock_prices(stock_id);
 CREATE INDEX IF NOT EXISTS idx_stock_prices_price_date ON stock_prices(price_date);
 
 -- 分析結果
-CREATE INDEX IF NOT EXISTS idx_stock_analysis_stock_id ON stock_analysis(stock_id);
+CREATE INDEX IF NOT EXISTS idx_stock_analysis_stock_id ON stock_analyses(stock_id);
 
 -- 予測結果
 CREATE INDEX IF NOT EXISTS idx_stock_predictions_stock_id ON stock_predictions(stock_id);
 CREATE INDEX IF NOT EXISTS idx_stock_predictions_target_date ON stock_predictions(target_date);
 
 -- 買い・売りなどの推奨情報
-CREATE INDEX IF NOT EXISTS idx_recommendations(stock_id);
+CREATE INDEX IF NOT EXISTS idx_recommendations_stock_id ON recommendations(stock_id);
 
 -- 保有銘柄
 CREATE INDEX IF NOT EXISTS idx_portfolios_user_id ON portfolios(user_id);
