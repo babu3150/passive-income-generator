@@ -43,6 +43,10 @@ button.signup:hover {
   transform: translateY(-1px);
 }
 
+.login-form p {
+  color: #f00;
+}
+
 .login-link-button {
   width: auto;
   background: transparent;

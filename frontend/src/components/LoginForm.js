@@ -21,11 +21,12 @@ function LoginForm({ onLogin }) {
         if (response.ok) {
             onLogin();
         } else {
-            setError("入力内容に誤りがありますので、入力し直してください");
+            setError("入力内容に誤りがあるので、入力し直してください");
         }
     };
 
     return (
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
           <div className="login-input-group">
             <span className="input-icon">🙎</span>
@@ -66,6 +67,7 @@ function LoginForm({ onLogin }) {
           </button>
           {error && <p>{error}</p>}
         </form>
+      </div>
     );
 }
 
