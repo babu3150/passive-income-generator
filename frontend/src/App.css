@@ -66,6 +66,7 @@ button.signup:hover {
 }
 
 button.logout {
+  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
