@@ -1,52 +1,78 @@
-import io
-
+from pathlib import Path
 import pandas as pd
-import requests
-import yfinance as yf
 
 from db import get_connection
 
-# JPXの東証上場銘柄一覧を取得するためのURL
-JPX_LIST_URL = (
-    "https://www.jpx.co.jp/markets/statistics-equities/misc/"
-    "01.html"
-)
+# JPXの東証上場銘柄一覧を取得するExcelファイル
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-def get_jpx_stock_list():
-    # JPXの東証上場銘柄一覧を取得する
-    response = requests.get(JPX_LIST_URL, timeout=30)
-    response.raise_for_status()
+JPX_FILE = BASE_DIR / "analysis" / "data" / "data_j.xlsx"
 
-    # ページ内のExcelファイルへのリンクを取得
-    tables = pd.read_html(io.StringIO(response.text))
-    return tables
+def get_jpx_stock_info(code):
+
+    if not JPX_FILE.exists():
+        raise FileNotFoundError(
+            f"JPX銘柄一覧が見つかりません: {JPX_FILE}"
+        )
+
+    # Excelファイルの読み込み
+    df = pd.read_excel(JPX_FILE)
+
+    # 証券コードを文字列として扱う？
+    code_column = "コード"
+
+    # コードを4桁/5桁文字列として比較
+    df[code_column] = (
+        df[code_column]
+        .astype(str)
+        .str.replace(".0", "", regex=False)
+        .str.strip()
+    )
+
+    result = df[df[code_column] == code ]
+
+    if result.empty:
+        raise ValueError(
+            f"JPX銘柄一覧に証券コード {code} が見つかりません"
+        )
+
+    row = result.iloc[0]
+
+    return {
+        "code": code,
+        "name": row["銘柄名"],
+        "market": row["市場・商品区分"],
+        "industry_code": str(row["33業種コード"]),
+        "industry": row["33業種区分"],
+    }
 
 # ticker_symbolから銘柄情報を取得
 def get_stock_info(ticker_symbol):
     code = ticker_symbol.split(".")[0]
 
-    # Yahoo!ファイナンスから取得
-    ticker = yf.Ticker(ticker_symbol)
-    info = ticker.info
-    name = info.get("longName") or info.get("shortName")
-
-    # JPXの銘柄一覧（Excelファイル）から取得
-    market = None
-    industry_code = None
-    industry = None
+    # JPXから基本情報を取得
+    jpx_info = get_jpx_stock_info(code)
 
     return {
         "ticker": ticker_symbol,
-        "code": code,
-        "name": name,
-        "market": market,
-        "industry_code": industry_code,
-        "industry": industry,
+        "code": jpx_info["code"],
+        "name": jpx_info["name"],
+        "market": jpx_info["market"],
+        "industry_code": jpx_info["industry_code"],
+        "industry": jpx_info["industry"],
     }
 
 # 銘柄情報をPostgreSQLへ保存
 def save_stock(ticker_symbol):
     stock = get_stock_info(ticker_symbol)
+
+    print("取得した銘柄情報")
+    print(f"コード     : {stock['code']}")
+    print(f"銘柄名     : {stock['name']}")
+    print(f"市場       : {stock['market']}")
+    print(f"業種コード : {stock['industry_code']}")
+    print(f"業種       : {stock['industry']}")
+
     connection = get_connection()
 
     try:
