@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS stocks (
     name VARCHAR(100) NOT NULL,
     -- 市場
     market VARCHAR(50),
+    -- 業種コード
+    industry_code VARCHAR(10),
     -- 業種
-    sector VARCHAR(100),
+    industry VARCHAR(100),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP    
 );
 
