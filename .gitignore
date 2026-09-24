@@ -4,3 +4,4 @@
 # Python
 __pycache__
 analysis/venv/
+analysis/fetch_prices_error.log

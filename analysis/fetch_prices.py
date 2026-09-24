@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import logging
 
 import pandas as pd
 import yfinance as yf
@@ -7,6 +8,19 @@ from db import get_connection
 
 # 取得する過去の日数
 HISTORY_DAYS = 365
+
+# 株価の異常値判定用（PostgreSQL NUMERIC(12, 2)の上限より十分小さい値を設定）
+MAX_REASONABLE_PRICE = 100_000_000
+
+# エラーログ設定
+logging.basicConfig(
+    filename="fetch_prices_error.log",
+    level=logging.ERROR,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    encoding="utf-8",
+)
+
+logger = logging.getLogger(__name__)
 
 # stocksテーブルから全銘柄を取得
 def get_stocks():
@@ -40,6 +54,7 @@ def fetch_stock_prices(ticker):
         start=start_date.strftime("%Y-%m-%d"),
         end=end_date.strftime("%Y-%m-%d"),
         auto_adjust=False,
+        repair=True,
         progress=False,
     )
 
@@ -48,6 +63,166 @@ def fetch_stock_prices(ticker):
 
     return prices
 
+# 株価データの異常チェック
+def validate_price_row(
+    ticker,
+    price_date,
+    open_price,
+    high_price,
+    low_price,
+    close_price,
+    adj_close_price,
+    volume,
+):
+    price_values = {
+        "Open": open_price,
+        "High": high_price,
+        "Low": low_price,
+        "Close": close_price,
+        "Adj Close": adj_close_price,
+    }
+
+    for name, value in price_values.items():
+
+        if value is None:
+            continue
+
+        if pd.isna(value):
+            logger.error(
+                "異常データ: ticker=%s date=%s %s=NaN",
+                ticker,
+                price_date,
+                name,
+            )
+
+            return False
+
+    # 価格が0以下でないかを確認
+    for name, value in price_values.items():
+
+        if value is None:
+            continue
+
+        if value <= 0:
+
+            logger.error(
+                "異常データ: ticker=%s date=%s %s=%s "
+                "(0以下の株価)",
+                ticker,
+                price_date,
+                name,
+                value,
+            )
+
+            return False
+
+    # 極端に大きな価格でないかを確認
+    for name, value in price_values.items():
+
+        if value is None:
+            continue
+
+        if value > MAX_REASONABLE_PRICE:
+
+            logger.error(
+                "異常データ: ticker=%s date=%s %s=%s "
+                "(異常に大きな株価)",
+                ticker,
+                price_date,
+                name,
+                value,
+            )
+
+            return False
+
+    # OHLCの整合性チェック
+    if (
+        high_price is not None
+        and low_price is not None
+        and high_price < low_price
+    ):
+
+        logger.error(
+            "異常データ: ticker=%s date=%s "
+            "High=%s < Low=%s",
+            ticker,
+            price_date,
+            high_price,
+            low_price,
+        )
+
+        return False
+
+    if (
+        high_price is not None
+        and open_price is not None
+        and high_price < open_price
+    ):
+
+        logger.error(
+            "異常データ: ticker=%s date=%s "
+            "High=%s < Open=%s",
+            ticker,
+            price_date,
+            high_price,
+            open_price,
+        )
+
+        return False
+
+    if (
+        high_price is not None
+        and close_price is not None
+        and high_price < close_price
+    ):
+
+        logger.error(
+            "異常データ: ticker=%s date=%s "
+            "High=%s < Close=%s",
+            ticker,
+            price_date,
+            high_price,
+            close_price,
+        )
+
+        return False
+
+    if (
+        low_price is not None
+        and open_price is not None
+        and low_price > open_price
+    ):
+
+        logger.error(
+            "異常データ: ticker=%s date=%s "
+            "Low=%s > Open=%s",
+            ticker,
+            price_date,
+            low_price,
+            open_price,
+        )
+
+        return False
+
+    if (
+        low_price is not None
+        and close_price is not None
+        and low_price > close_price
+    ):
+
+        logger.error(
+            "異常データ: ticker=%s date=%s "
+            "Low=%s > Close=%s",
+            ticker,
+            price_date,
+            low_price,
+            close_price,
+        )
+
+        return False
+
+    return True
+
 # 株価データをstock_pricesへ保存
 def save_prices(stock_id, ticker, prices):
 
@@ -55,6 +230,9 @@ def save_prices(stock_id, ticker, prices):
 
     try:
         with connection.cursor() as cursor:
+
+            saved_count = 0
+            skipped_count = 0
 
             for price_date, row in prices.iterrows():
                 open_price = row["Open"]
@@ -102,6 +280,29 @@ def save_prices(stock_id, ticker, prices):
                 if volume is not None:
                     volume = int(volume)
 
+                # 異常データのチェック
+                is_valid = validate_price_row(
+                    ticker=ticker,
+                    price_date=price_date.date(),
+                    open_price=open_price,
+                    high_price=high_price,
+                    low_price=low_price,
+                    close_price=close_price,
+                    adj_close_price=adj_close_price,
+                    volume=volume,
+                )
+
+                if not is_valid:
+                    skipped_count += 1
+                    print(
+                        f"異常データをスキップ："
+                        f"{ticker}"
+                        f"{price_date.date()}"
+                    )
+
+                    continue
+
+                # DBへ保存
                 cursor.execute(
                     """
                     INSERT INTO stock_prices (
@@ -138,7 +339,11 @@ def save_prices(stock_id, ticker, prices):
                     ),
                 )
 
+                saved_count += 1
+
         connection.commit()
+
+        return saved_count, skipped_count
 
     except Exception:
         connection.rollback()
@@ -154,6 +359,7 @@ def main():
 
     success_count = 0
     error_count = 0
+    skipped_total = 0
 
     for stock_id, ticker in stocks:
         try:
@@ -161,17 +367,23 @@ def main():
 
             if prices.empty:
                 print(f"株価データなし： {ticker}")
+
+                logger.error("株価データなし： ticker=%s", ticker)
+
                 continue
 
-            save_prices(
+            saved_count, skipped_count = save_prices(
                 stock_id,
                 ticker,
                 prices,
             )
 
+            skipped_total += skipped_count
+
             print(
                 f"保存完了： {ticker}"
-                f"({len(prices)}件)"
+                f"({saved_count}件保存,"
+                f"{skipped_count}件スキップ)"
             )
 
             success_count += 1
@@ -179,12 +391,15 @@ def main():
         except Exception as e:
             error_count += 1
 
+            logger.exception("銘柄処理エラー： ticker=%s", ticker)
+
             print(f"エラー： {ticker}")
             print(f"{e}")
 
     print("株価取得処理が完了しました")
     print(f"成功： {success_count}")
     print(f"エラー： {error_count}")
+    print(f"異常データとしてスキップ： {skipped_total}")
 
 if __name__ == "__main__":
     main()
