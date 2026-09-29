@@ -1,7 +1,10 @@
 import pandas as pd
-import psycopg2
+import psycopg2.extras
 
 from db import get_connection
+
+# 株価の異常値判定用（PostgreSQL NUMERIC(12, 2)の上限より十分小さい値を設定）
+MAX_REASONABLE_PRICE = 100_000_000
 
 # 銘柄一覧を取得
 def get_stocks(conn):
@@ -12,19 +15,100 @@ def get_stocks(conn):
         ORDER BY code
     """
 
-    return pd.read_sql(sql, conn)
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        rows = cur.fetchall()
+
+    return rows
 
 # 指定した銘柄の株価を取得
 def get_stock_prices(conn, stock_id):
 
     sql = """
-        SELECT price_date, open_price, high_price, low_price, close_price, volume
+        SELECT
+            price_date,
+            open_price,
+            high_price,
+            low_price,
+            close_price,
+            volume
         FROM stock_prices
         WHERE stock_id = %s
         ORDER BY price_date
     """
 
-    return pd.read_sql(sql, conn, params=(stock_id,))
+    with conn.cursor() as cur:
+        cur.execute(sql, (stock_id,))
+        rows = cur.fetchall()
+
+    if not rows:
+        return pd.DataFrame(
+            columns=[
+                "price_date",
+                "open_price",
+                "high_price",
+                "low_price",
+                "close_price",
+                "volume",
+            ]
+        )
+
+    return pd.DataFrame(
+        rows,
+        columns=[
+            "price_date",
+            "open_price",
+            "high_price",
+            "low_price",
+            "close_price",
+            "volume",
+        ],
+    )
+
+# 異常な株価データを除外
+def remove_invalid_prices(prices):
+
+    price_columns = [
+        "open_price",
+        "high_price",
+        "low_price",
+        "close_price",
+    ]
+
+    # 数値に変換できない値をNaNにする
+    for column in price_columns:
+        prices[column] = pd.to_numeric(
+            prices[column],
+            errors="coerce"
+        )
+
+    # 株価がNaNの行を削除
+    prices = prices.dropna(
+        subset = price_columns
+    ).copy()
+
+    # 0以下の株価を除外
+    for column in price_columns:
+        prices = prices[
+            prices[column] > 0
+        ]
+
+    # 極端に大きい株価を除外
+    for column in price_columns:
+        prices = prices[
+            prices[column] <= MAX_REASONABLE_PRICE
+        ]
+
+    # OHLCの整合性を確認
+    prices = prices[
+        (prices["high_price"] >= prices["low_price"])
+        & (prices["high_price"] >= prices["open_price"])
+        & (prices["high_price"] >= prices["close_price"])
+        & (prices["low_price"] <= prices["open_price"])
+        & (prices["low_price"] <= prices["close_price"])
+    ]
+
+    return prices
 
 # テクニカル指標を計算
 def calculate_analysis(prices):
@@ -59,7 +143,10 @@ def calculate_analysis(prices):
     return prices
 
 # 分析結果をstock_analysesに保存
-def save_analysis(conn, stock_id, analysis_date, row):
+def save_analysis(conn, stock_id, analysis_data):
+
+    if not analysis_data:
+        return
 
     sql = """
         INSERT INTO stock_analyses (
@@ -71,7 +158,7 @@ def save_analysis(conn, stock_id, analysis_date, row):
             rsi,
             macd
         )
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        VALUES %s
         ON CONFLICT (stock_id, analysis_date)
         DO UPDATE SET
             sma_5 = EXCLUDED.sma_5,
@@ -82,17 +169,10 @@ def save_analysis(conn, stock_id, analysis_date, row):
     """
 
     with conn.cursor() as cur:
-        cur.execute(
+        psycopg2.extras.execute_values(
+            cur,
             sql,
-            (
-                stock_id,
-                analysis_date,
-                row["sma_5"],
-                row["sma_25"],
-                row["sma_75"],
-                row["rsi"],
-                row["macd"],
-            ),
+            analysis_data,
         )
 
 def main():
@@ -106,56 +186,104 @@ def main():
 
         success_count = 0
         skip_count = 0
+        total_saved = 0
 
-        for _, stock in stocks.iterrows():
-
-            stock_id = stock["id"]
-            ticker = stock["ticker"]
-            name = stock["name"]
+        for stock_id, ticker, code, name in stocks:
 
             print(f"分析中： {ticker} {name}")
 
-            prices = get_stock_prices(conn, stock_id)
+            # 株価の履歴を取得
+            prices = get_stock_prices(conn, stock_id,)
 
-            # 75日移動平均を計算するためにチェック
+            # 株価データが75件未満であればスキップ
             if len(prices) < 75:
-                print(f"スキップ： {ticker} {name}（株価データ不足）")
+                print(f"スキップ： {ticker} "
+                      f"（株価データ不足： {len(prices)}件）"
+                )
+
                 skip_count += 1
                 continue
 
+            # 異常な株価を除外
+            prices = remove_invalid_prices(prices)
+
+            # 有効な株価が75件未満であればスキップ
+            if len(prices) < 75:
+                print(
+                    f"スキップ： {ticker}"
+                    f"（有効な株価データ不足： {len(prices)}件）"
+                )
+
+                skip_count += 1
+                continue
+
+            # テクニカル指標を計算
             prices = calculate_analysis(prices)
 
-            # 最新日の分析結果を取得
-            latest = prices.iloc[-1]
+            # 指標をすべて計算できたレコードだけを使用
+            analysis_prices = prices.dropna(
+                subset=[
+                    "sma_5",
+                    "sma_25",
+                    "sma_75",
+                    "rsi",
+                    "macd",
+                ]
+            ).copy()
 
-            analysis_date = latest["price_date"]
+            if analysis_prices.empty:
+                print(
+                    f"スキップ： {ticker}"
+                    f"（分析データなし）"
+                )
 
-            # NaNチェック
-            if pd.isna(latest["sma_75"]):
-                print(f"スキップ： {ticker} {name}（75日移動平均計算不可）")
                 skip_count += 1
                 continue
 
+            # 保存用データを作成
+            analysis_data = []
+
+            for _, row in analysis_prices.iterrows():
+
+                analysis_date = pd.to_datetime(
+                    row["price_date"]
+                ).date()
+
+                analysis_data.append(
+                    (
+                        int(stock_id),
+                        analysis_date,
+                        float(row["sma_5"]),
+                        float(row["sma_25"]),
+                        float(row["sma_75"]),
+                        float(row["rsi"]),
+                        float(row["macd"]),
+                    )
+                )
+
+            # DBへ保存
             save_analysis(
                 conn,
-                int(stock_id),
-                analysis_date,
-                {
-                    "sma_5": float(latest["sma_5"]),
-                    "sma_25": float(latest["sma_25"]),
-                    "sma_75": float(latest["sma_75"]),
-                    "rsi": float(latest["rsi"]),
-                    "macd": float(latest["macd"]),
-                },
+                stock_id,
+                analysis_data,
             )
 
             conn.commit()
 
+            saved_count = len(analysis_data)
+
+            total_saved += saved_count
             success_count += 1
 
+            print(
+                f"保存完了： {ticker}"
+                f"({saved_count}件)"
+            )
+
         print("分析完了")
-        print(f"保存成功：{success_count}件")
-        print(f"スキップ：{skip_count}件")
+        print(f"処理成功銘柄： {success_count}件")
+        print(f"スキップ銘柄： {skip_count}件")
+        print(f"分析結果保存： {total_saved}件")
 
     except Exception:
         conn.rollback()
