@@ -16,14 +16,17 @@ def get_training_data(conn):
                 price_date,
                 close_price,
                 volume,
+
                 LEAD(price_date) OVER (
                     PARTITION BY stock_id
                     ORDER BY price_date
                 ) AS target_date,
+
                 LEAD(close_price) OVER (
                     PARTITION BY stock_id
                     ORDER BY price_date
                 ) AS target_price
+
             FROM stock_prices
         )
 
@@ -39,19 +42,23 @@ def get_training_data(conn):
             a.macd,
             p.target_date,
             p.target_price
+
         FROM stock_analyses a
+
         INNER JOIN price_data p
             ON a.stock_id = p.stock_id
             AND a.analysis_date = p.price_date
+
         WHERE
             p.target_date IS NOT NULL
             AND p.target_price IS NOT NULL
+
         ORDER BY
             a.stock_id,
             a.analysis_date
     """
 
-    return pd.read_sql_query(sql, conn,)
+    return pd.read_sql_query(sql, conn)
 
 def main():
     conn = get_connection()
