@@ -5,3 +5,4 @@
 __pycache__
 analysis/venv/
 analysis/fetch_prices_error.log
+analysis/random_forest_model.joblib
