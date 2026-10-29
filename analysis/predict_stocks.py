@@ -7,7 +7,6 @@ import pandas as pd
 
 from db import get_connection
 
-
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "random_forest_model.joblib"
 
@@ -20,7 +19,6 @@ FEATURES = [
     "rsi",
     "macd",
 ]
-
 
 def get_next_business_day(current_date):
     # 休場日（土日祝、年末年始）は避ける
@@ -35,7 +33,6 @@ def get_next_business_day(current_date):
         next_date += timedelta(days=1)
 
     return next_date
-
 
 def get_latest_data(conn):
     # 各銘柄の最新の株価とテクニカル指標を取得
@@ -70,7 +67,6 @@ def get_latest_data(conn):
 
     return pd.read_sql_query(sql, conn)
 
-
 def save_predictions(conn, predictions):
     # 予測結果を保存（同じ銘柄・予測日・対象日は更新）
     sql = """
@@ -100,7 +96,6 @@ def save_predictions(conn, predictions):
     with conn.cursor() as cur:
         for row in predictions:
             cur.execute(sql, row)
-
 
 def main():
     if not MODEL_PATH.exists():
@@ -218,7 +213,6 @@ def main():
 
     finally:
         conn.close()
-
 
 if __name__ == "__main__":
     main()
