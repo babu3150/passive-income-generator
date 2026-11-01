@@ -149,6 +149,49 @@ def save_recommendations(conn, recommendations):
     with conn.cursor() as cur:
         cur.executemany(sql, recommendations)
 
+# 買い候補の銘柄の購入オススメ度を0〜100点で計算
+def calculate_buy_score(change_percent):
+    if change_percent >= 5.0:
+        return 100
+    elif change_percent >= 4.0:
+        return 90
+    elif change_percent >= 3.0:
+        return 80
+    elif change_percent >= 2.0:
+        return 65
+    elif change_percent >= 1.0:
+        return 50
+    elif change_percent >= 0.5:
+        return 35
+    elif change_percent > 0:
+        return 20
+    else:
+        return 0
+
+# 売り候補の銘柄の売却優先度を0〜100点で計算
+def calculate_sell_score(change_percent):
+    if change_percent <= -5.0:
+        return 100
+    elif change_percent <= -4.0:
+        return 90
+    elif change_percent <= -3.0:
+        return 80
+    elif change_percent <= -2.0:
+        return 65
+    elif change_percent <= -1.0:
+        return 50
+    else:
+        return 0
+
+# 推奨内容（買い候補、売り候補、様子見）に応じてスコア計算を切り替え
+def calculate_score(recommendation, change_percent):
+    if recommendation == "BUY":
+        return calculate_buy_score(change_percent)
+    elif recommendation == "SELL":
+        return calculate_sell_score(change_percent)
+    else:
+        return 0
+
 def main():
     conn = get_connection()
 
@@ -203,7 +246,7 @@ def main():
                 stock_id,
                 prediction_date,
                 recommendation,
-                change_percent,
+                calculate_score(recommendation, change_percent),
                 buy_price,
                 sell_price,
                 target_price,
