@@ -70,6 +70,7 @@ router.get("/recommendations", async (req, res) => {
                 r.stop_loss_price,
                 r.reason,
 
+                p.current_price,
                 p.predicted_price,
                 p.prediction_change_percent,
                 p.target_date
@@ -81,6 +82,7 @@ router.get("/recommendations", async (req, res) => {
 
             LEFT JOIN LATERAL (
                 SELECT
+                    current_price,
                     predicted_price,
                     prediction_change_percent,
                     target_date
