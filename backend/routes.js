@@ -50,4 +50,64 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// 銘柄の推奨情報を取得
+router.get("/recommendations", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT DISTINCT ON (r.stock_id)
+                s.id AS stock_id,
+                s.ticker,
+                s.code,
+                s.name,
+                s.market,
+
+                r.recommendation_date,
+                r.recommendation,
+                r.score,
+                r.buy_price,
+                r.sell_price,
+                r.target_price,
+                r.stop_loss_price,
+                r.reason,
+
+                p.predicted_price,
+                p.prediction_change_percent,
+                p.target_date
+
+            FROM recommendations r
+
+            INNER JOIN stocks s
+                ON r.stock_id = s.id
+
+            LEFT JOIN LATERAL (
+                SELECT
+                    predicted_price,
+                    prediction_change_percent,
+                    target_date
+                FROM stock_predictions
+                WHERE stock_id = r.stock_id
+                    AND prediction_date = r.recommendation_date
+                ORDER BY target_date DESC
+                LIMIT 1
+            ) p ON true
+
+            ORDER BY
+                r.stock_id,
+                r.recommendation_date DESC,
+                r.created_at DESC
+        `);
+
+        return res.status(200).json({
+            recommendations: result.rows,
+        });
+
+    } catch (error) {
+        console.error("エラー：", error);
+
+        return res.status(500).json({
+            message: "銘柄の推奨情報の取得に失敗しました",
+        });
+    }
+});
+
 module.exports = router;
