@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
+import StockDetailPage from "./StockDetailPage";
 
 function HomePage({ onLogout }) {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [selectedStock, setSelectedStock] = useState(null);
 
     // 銘柄の推奨情報をAPIから取得
     useEffect(() => {
@@ -98,12 +100,22 @@ function HomePage({ onLogout }) {
                     {formatPrediction(stock.prediction_change_percent)}予想
                 </div>
 
-                <button type="button" className="detail-button">
+                <button type="button" className="detail-button" onClick={() => setSelectedStock(stock)}>
                     詳細をみる
                 </button>
             </div>
         );
     };
+
+    // 詳細画面を表示
+    if (selectedStock) {
+        return (
+            <StockDetailPage
+                stock={selectedStock}
+                onBack={() => setSelectedStock(null)}
+            />
+        );
+    }
 
     // 保有株（現時点では仮データ）
     const holdings = [

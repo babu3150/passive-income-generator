@@ -258,6 +258,7 @@ button.logout:hover {
   color: #444;
 }
 
+/* ホーム画面 */
 .home-page {
   min-height: 100vh;
   background-image: url("./images/stock-wallpaper.png");
@@ -458,6 +459,150 @@ button.logout:hover {
   white-space: nowrap;
 }
 
+/* 詳細画面 */
+.stock-detail-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.detail-section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.detail-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-heading h2 {
+  margin: 0 0 8px;
+}
+
+.detail-heading p {
+  color: #777;
+  margin: 0;
+}
+
+.detail-recommendation {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.detail-recommendation.buy {
+  color: #168443;
+  background: #e4f5e9;
+}
+
+.detail-recommendation.sell {
+  color: #d43d3d;
+  background: #fce8e8;
+}
+
+.detail-recommendation.hold {
+  color: #997600;
+  background: #fff4d6;
+}
+
+.detail-section h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.detail-price-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.detail-price-card {
+  background: #f5f6f8;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-price-card span,
+.detail-item span {
+  color: #777;
+  font-size: 14px;
+}
+
+.detail-price-card strong {
+  font-size: 22px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 13px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.detail-score {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 15px 0;
+}
+
+.detail-score strong {
+  font-size: 32px;
+}
+
+.score-max {
+  color: #888;
+}
+
+.positive {
+  color: #168443;
+}
+
+.negative {
+  color: #d43d3d;
+}
+
+.back-button {
+  padding: 9px 20px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  background: #555;
+  color: white;
+  cursor: pointer;
+}
+
+.bottom-back-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.detail-disclaimer {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 /* スマホ幅用 */
 @media (max-width: 900px) {
 
@@ -499,6 +644,7 @@ button.logout:hover {
     margin-bottom: -20px;
   }
 
+  /* ホーム画面 */
   .home-page {
     margin: 25px auto;
     padding: 0 15px 40px;
@@ -553,5 +699,22 @@ button.logout:hover {
     height: 36px;
     padding: 0 8px;
     font-size: 13px;
+  }
+
+  /* 詳細画面 */
+  .stock-detail-content {
+    padding: 12px;
+  }
+
+  .detail-section {
+    padding: 15px;
+  }
+
+  .detail-price-card strong {
+    font-size: 18px;
+  }
+
+  .detail-item {
+    font-size: 14px;
   }
 }
