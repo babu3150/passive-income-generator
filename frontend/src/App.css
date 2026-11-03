@@ -94,6 +94,18 @@ button.logout:hover {
   transform:  translateY(-1px);
 }
 
+button.back {
+  margin-top: 10px;
+  padding: 9px 20px;
+  border: 1px solid #aaa;
+  background: #555;
+}
+
+button.back:hover {
+  background: #707070;
+  border-color: #ccc;
+}
+
 .login-page,
 .signup-page {
   position: relative;
@@ -259,7 +271,8 @@ button.logout:hover {
 }
 
 /* ホーム画面 */
-.home-page {
+.home-page,
+.stock-detail-page {
   min-height: 100vh;
   background-image: url("./images/stock-wallpaper.png");
   background-size: cover;
@@ -581,20 +594,6 @@ button.logout:hover {
 
 .negative {
   color: #d43d3d;
-}
-
-.back-button {
-  padding: 9px 20px;
-  border: 1px solid #aaa;
-  border-radius: 6px;
-  background: #555;
-  color: white;
-  cursor: pointer;
-}
-
-.bottom-back-button {
-  width: 100%;
-  margin-top: 10px;
 }
 
 .detail-disclaimer {
