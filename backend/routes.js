@@ -112,4 +112,63 @@ router.get("/recommendations", async (req, res) => {
     }
 });
 
+// 銘柄ごとの株価履歴・テクニカル分析を取得
+router.get("/stocks/:stockId/history", async (req, res) => {
+    const stockId = Number(req.params.stockId);
+
+    if (!Number.isInteger(stockId) || stockId <= 0) {
+        return res.status(400).json({
+            message: "銘柄IDが正しくありません",
+        });
+    }
+
+    try {
+        const result = await pool.query(
+            `
+            SELECT *
+            FROM (
+                SELECT
+                    p.price_date,
+                    p.open_price,
+                    p.high_price,
+                    p.low_price,
+                    p.close_price,
+                    p.volume,
+
+                    a.sma_5,
+                    a.sma_25,
+                    a.sma_75,
+                    a.rsi,
+                    a.macd
+
+                FROM stock_prices p
+
+                LEFT JOIN stock_analyses a
+                    ON p.stock_id = a.stock_id
+                    AND p.price_date = a.analysis_date
+
+                WHERE p.stock_id = $1
+
+                ORDER BY p.price_date DESC
+                LIMIT 120
+            ) history
+
+            ORDER BY price_date ASC
+            `,
+            [stockId]
+        );
+
+        return res.status(200).json({
+            history: result.rows,
+        });
+
+    } catch (error) {
+        console.error("株価履歴取得エラー：", error);
+
+        return res.status(500).json({
+            message: "株価履歴の取得中にエラーが発生しました",
+        });
+    }
+});
+
 module.exports = router;
