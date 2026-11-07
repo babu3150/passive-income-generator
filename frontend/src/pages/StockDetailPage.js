@@ -366,7 +366,7 @@ function StockDetailPage({ stock, onBack }) {
                     ※ AIによる予測・推奨は将来の株価を保証するものではありませんので、投資判断はご自身の責任で行ってください
                 </p>
 
-                <button className="back" onClick={onBack}>
+                <button type="button" className="back-button" onClick={onBack}>
                     おすすめ一覧に戻る
                 </button>
 
