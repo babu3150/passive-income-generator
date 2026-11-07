@@ -171,4 +171,110 @@ router.get("/stocks/:stockId/history", async (req, res) => {
     }
 });
 
+// 銘柄の検索
+router.get("/stocks/search", async (req, res) => {
+    const keyword = (req.query.q || "").trim();
+
+    if (!keyword) {
+        return res.status(200).json({ stocks: [] });
+    }
+
+    try {
+        const result = await pool.query(
+            `
+            SELECT
+                s.id AS stock_id,
+                s.ticker,
+                s.code,
+                s.name,
+                s.market,
+
+                r.recommendation_date,
+                r.recommendation,
+                r.score,
+                r.buy_price,
+                r.sell_price,
+                r.target_price,
+                r.stop_loss_price,
+                r.reason,
+
+                COALESCE(
+                    p.current_price,
+                    sp.close_price
+                ) AS current_price,
+
+                p.predicted_price,
+                p.prediction_change_percent,
+                p.target_date
+
+            FROM stocks s
+
+            LEFT JOIN LATERAL (
+                SELECT
+                    recommendation_date,
+                    recommendation,
+                    score,
+                    buy_price,
+                    sell_price,
+                    target_price,
+                    stop_loss_price,
+                    reason
+                FROM recommendations
+                WHERE stock_id = s.id
+                ORDER BY recommendation_date DESC, created_at DESC
+                LIMIT 1
+            ) r ON true
+
+            LEFT JOIN LATERAL (
+                SELECT
+                    current_price,
+                    predicted_price,
+                    prediction_change_percent,
+                    target_date
+                FROM stock_predictions
+                WHERE stock_id = s.id
+                ORDER BY prediction_date DESC, target_date DESC
+                LIMIT 1
+            ) p ON true
+
+            LEFT JOIN LATERAL (
+                SELECT close_price
+                FROM stock_prices
+                WHERE stock_id = s.id
+                ORDER BY price_date DESC
+                LIMIT 1
+            ) sp ON true
+
+            WHERE
+                s.code::text ILIKE '%' || $1 || '%'
+                OR s.name ILIKE '%' || $1 || '%'
+                OR s.ticker ILIKE '%' || $1 || '%'
+
+            ORDER BY
+                CASE
+                    WHEN s.code::text = $1 THEN 0
+                    WHEN s.ticker = $1 THEN 1
+                    WHEN s.name = $1 THEN 2
+                    ELSE 3
+                END,
+                s.code
+
+            LIMIT 30
+            `,
+            [keyword]
+        );
+
+        return res.status(200).json({
+            stocks: result.rows
+        });
+
+    } catch (error) {
+        console.error("銘柄検索エラー：", error);
+
+        return res.status(500).json({
+            message: "銘柄検索中にエラーが発生しました"
+        });
+    }
+});
+
 module.exports = router;
