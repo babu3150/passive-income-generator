@@ -1,9 +1,62 @@
+import React, { useState, useEffect } from "react";
 
-import React from "react";
+import {
+    ResponsiveContainer,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ReferenceLine,
+} from "recharts";
 
 function StockDetailPage({ stock, onBack }) {
     const isBuy = stock.recommendation === "BUY";
     const isSell = stock.recommendation === "SELL";
+    const [history, setHistory] = useState([]);
+    const [historyLoading, setHistoryLoading] = useState(true);
+    const [historyError, setHistoryError] = useState("");
+
+    useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                const response = await fetch(
+                    `/api/stocks/${stock.stock_id}/history`
+                );
+
+                if (!response.ok) {
+                    throw new Error("株価履歴の取得に失敗しました");
+                }
+
+                const data = await response.json();
+
+                setHistory(data.history || []);
+
+            } catch (error) {
+                console.error("株価履歴取得エラー：", error);
+                setHistoryError("株価履歴を取得できませんでした");
+
+            } finally {
+                setHistoryLoading(false);
+            }
+        };
+
+        fetchHistory();
+    }, [stock.stock_id]);
+
+    // チャート用データに変換
+    const chartData = history.map((item) => ({
+        ...item,
+        date: String(item.price_date).slice(5, 10).replace("-", "/"),
+        close: Number(item.close_price),
+        sma5: item.sma_5 == null ? null : Number(item.sma_5),
+        sma25: item.sma_25 == null ? null : Number(item.sma_25),
+        sma75: item.sma_75 == null ? null : Number(item.sma_75),
+        rsi: item.rsi == null ? null : Number(item.rsi),
+        macd: item.macd == null ? null : Number(item.macd),
+    }));
 
     // 株価の表示
     const formatPrice = (price) => {
@@ -93,6 +146,136 @@ function StockDetailPage({ stock, onBack }) {
                         label="予測対象日"
                         value={formatDate(stock.target_date)}
                     />
+                </section>
+
+                {/* 株価チャート・テクニカル分析 */}
+                <section className="detail-section">
+                    <h3>📈 株価チャート</h3>
+
+                    {historyLoading ? (
+                        <p>株価データを読み込み中...</p>
+                    ) : historyError ? (
+                        <p className="error-message">{historyError}</p>
+                    ) : chartData.length === 0 ? (
+                        <p>株価データがありません。</p>
+                    ) : (
+                        <>
+                            <div className="chart-container">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <LineChart
+                                        data={chartData}
+                                        margin={{ top: 10, right: 15, left: 5, bottom: 5 }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="date"
+                                            minTickGap={30}
+                                        />
+                                        <YAxis
+                                            domain={["auto", "auto"]}
+                                            tickFormatter={(value) =>
+                                                value.toLocaleString("ja-JP")
+                                            }
+                                        />
+                                        <Tooltip
+                                            formatter={(value) =>
+                                                value == null
+                                                    ? "-"
+                                                    : `${Number(value).toLocaleString("ja-JP", {
+                                                        maximumFractionDigits: 2,
+                                                    })}円`
+                                            }
+                                        />
+                                        <Legend />
+
+                                        <Line
+                                            type="monotone"
+                                            dataKey="close"
+                                            name="終値"
+                                            stroke="#2563eb"
+                                            strokeWidth={2}
+                                            dot={false}
+                                            connectNulls
+                                        />
+
+                                        <Line
+                                            type="monotone"
+                                            dataKey="sma5"
+                                            name="SMA5"
+                                            stroke="#f59e0b"
+                                            dot={false}
+                                            connectNulls
+                                        />
+
+                                        <Line
+                                            type="monotone"
+                                            dataKey="sma25"
+                                            name="SMA25"
+                                            stroke="#16a34a"
+                                            dot={false}
+                                            connectNulls
+                                        />
+
+                                        <Line
+                                            type="monotone"
+                                            dataKey="sma75"
+                                            name="SMA75"
+                                            stroke="#9333ea"
+                                            dot={false}
+                                            connectNulls
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+
+                            <h3>RSI（相対力指数）</h3>
+
+                            <div className="chart-container">
+                                <ResponsiveContainer width="100%" height={220}>
+                                    <LineChart data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="date" minTickGap={30} />
+                                        <YAxis domain={[0, 100]} />
+                                        <Tooltip />
+                                        <ReferenceLine y={70} stroke="#dc2626" strokeDasharray="5 5" />
+                                        <ReferenceLine y={30} stroke="#2563eb" strokeDasharray="5 5" />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="rsi"
+                                            name="RSI"
+                                            stroke="#ea580c"
+                                            strokeWidth={2}
+                                            dot={false}
+                                            connectNulls
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+
+                            <h3>MACD</h3>
+
+                            <div className="chart-container">
+                                <ResponsiveContainer width="100%" height={220}>
+                                    <LineChart data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="date" minTickGap={30} />
+                                        <YAxis domain={["auto", "auto"]} />
+                                        <Tooltip />
+                                        <ReferenceLine y={0} stroke="#888" />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="macd"
+                                            name="MACD"
+                                            stroke="#7c3aed"
+                                            strokeWidth={2}
+                                            dot={false}
+                                            connectNulls
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </>
+                    )}
                 </section>
 
                 {/* AI推奨情報 */}

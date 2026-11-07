@@ -573,6 +573,22 @@ button.back:hover {
   overflow-wrap: anywhere;
 }
 
+/* 株価チャート */
+.chart-container {
+  width: 100%;
+  height: 300px;
+  margin: 15px 0 30px;
+}
+
+.chart-container h3 {
+  margin-bottom: 15px;
+}
+
+/* RSI・MACDのチャート */
+.chart-container:nth-of-type(n + 2) {
+  height: 220px;
+}
+
 .detail-score {
   display: flex;
   align-items: baseline;
@@ -715,5 +731,10 @@ button.back:hover {
 
   .detail-item {
     font-size: 14px;
+  }
+
+  .chart-container {
+    margin-left: -5px;
+    width: calc(100% + 10px);
   }
 }
