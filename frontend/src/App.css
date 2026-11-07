@@ -94,14 +94,14 @@ button.logout:hover {
   transform:  translateY(-1px);
 }
 
-button.back {
+.back-button {
   margin-top: 10px;
   padding: 9px 20px;
   border: 1px solid #aaa;
   background: #555;
 }
 
-button.back:hover {
+.back-button:hover {
   background: #707070;
   border-color: #ccc;
 }
