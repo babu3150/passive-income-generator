@@ -11,7 +11,7 @@ function StockSearchPage({ onSelectStock, onBack, onLogout }) {
 
         if (!keyword.trim()) {
             setStocks([]);
-            setError("銘柄コードまたは銘柄名を入力してください");
+            setError("銘柄コードまたは銘柄名またはティッカーを入力してください");
             return;
         }
 
