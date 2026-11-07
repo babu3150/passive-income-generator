@@ -273,7 +273,8 @@ button.logout:hover {
 
 /* ホーム画面 */
 .home-page,
-.stock-detail-page {
+.stock-detail-page,
+.stock-search-page {
   min-height: 100vh;
   background-image: url("./images/stock-wallpaper.png");
   background-size: cover;
@@ -281,6 +282,13 @@ button.logout:hover {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+/* .stock-search-page {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  color: #f5f5f5;
+} */
 
 .header {
   height: 105px;
@@ -617,13 +625,6 @@ button.logout:hover {
   color: #888;
   font-size: 12px;
   line-height: 1.7;
-}
-
-.stock-search-page {
-  width: 90%;
-  max-width: 900px;
-  margin: 30px auto;
-  color: #f5f5f5;
 }
 
 .stock-search-form {
