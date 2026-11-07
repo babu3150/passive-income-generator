@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
 import StockDetailPage from "./StockDetailPage";
+import StockSearchPage from "./StockSearchPage";
 
 function HomePage({ onLogout }) {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [selectedStock, setSelectedStock] = useState(null);
+    const [showSearchPage, setShowSearchPage] = useState(false);
 
     // 銘柄の推奨情報をAPIから取得
     useEffect(() => {
@@ -107,6 +109,19 @@ function HomePage({ onLogout }) {
         );
     };
 
+    // 銘柄検索画面を表示
+    if (showSearchPage) {
+    return (
+        <StockSearchPage
+            onBack={() => setShowSearchPage(false)}
+            onSelectStock={(stock) => {
+                setSelectedStock(stock);
+                setShowSearchPage(false);
+            }}
+        />
+    );
+}
+
     // 詳細画面を表示
     if (selectedStock) {
         return (
@@ -143,6 +158,11 @@ function HomePage({ onLogout }) {
         <div className="home-page">
             <header className="header">
                 <h2 className="header-title">不労所得製造機</h2>
+
+                <button type="button" className="stock-search-button" onClick={() => setShowSearchPage(true)}>
+                    🔍 銘柄を検索する
+                </button>
+
                 <button className="logout" onClick={onLogout}>
                     ログアウト
                 </button>
