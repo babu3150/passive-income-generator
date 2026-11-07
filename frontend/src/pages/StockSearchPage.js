@@ -70,7 +70,7 @@ function StockSearchPage({ onSelectStock, onBack }) {
                     type="text"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
-                    placeholder="例：7203、トヨタ自動車"
+                    placeholder="銘柄コード・銘柄名・ティッカーを入力"
                 />
 
                 <button type="submit" disabled={loading}>
