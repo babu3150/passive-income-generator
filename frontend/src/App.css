@@ -95,16 +95,30 @@ button.logout:hover {
 }
 
 .back-button {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 9px 20px;
-  border: 1px solid #aaa;
-  background: #555;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 195px;
+  min-height: 54px;
+  padding: 0 28px;
+  margin: 0;
+  color: #344b66;
+  background-color: rgba(225, 235, 247, 0.85);
+  border: 2px solid #4b82c3;
+  border-color: #829bb8;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .back-button:hover {
-  background: #707070;
-  border-color: #ccc;
+  background-color: #d5e3f3;
+  border-color: #6685a8;
+  box-shadow: 0 4px 12px rgba(75, 110, 150, 0.2);
+  transform: translateY(-1px);
 }
 
 .login-page,
@@ -622,24 +636,6 @@ button.logout:hover {
   line-height: 1.7;
 }
 
-.stock-search-page .header .back-button {
-  width: auto;
-  min-width: 150px;
-  padding: 12px 20px;
-  margin: 0;
-  background: #555;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.stock-search-page .header .back-button:hover {
-  background: #333;
-}
-
 .stock-search-content {
   width: 90%;
   max-width: 900px;
@@ -903,12 +899,6 @@ button.logout:hover {
 
   .stock-search-page {
     width: 94%;
-  }
-
-  .stock-search-page .header .back-button {
-    min-width: 0;
-    padding: 10px 12px;
-    font-size: 12px;
   }
 
   .stock-search-content {

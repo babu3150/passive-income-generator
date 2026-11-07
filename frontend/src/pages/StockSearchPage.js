@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function StockSearchPage({ onSelectStock, onBack }) {
+function StockSearchPage({ onSelectStock, onBack, onLogout }) {
     const [keyword, setKeyword] = useState("");
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -60,6 +60,10 @@ function StockSearchPage({ onSelectStock, onBack }) {
 
                 <button type="button" className="back-button" onClick={onBack}>
                     ホームに戻る
+                </button>
+
+                <button className="logout" onClick={onLogout}>
+                    ログアウト
                 </button>
             </header>
 
