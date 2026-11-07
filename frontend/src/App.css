@@ -96,6 +96,7 @@ button.logout:hover {
 
 .back-button {
   margin-top: 10px;
+  margin-bottom: 20px;
   padding: 9px 20px;
   border: 1px solid #aaa;
   background: #555;
@@ -618,6 +619,122 @@ button.logout:hover {
   line-height: 1.7;
 }
 
+.stock-search-page {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  color: #f5f5f5;
+}
+
+.stock-search-form {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin: 25px 0 30px;
+}
+
+.stock-search-form input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 15px;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  background: #252b35;
+  color: #fff;
+  font-size: 16px;
+}
+
+.stock-search-form input::placeholder {
+  color: #aeb5c0;
+}
+
+.stock-search-form button {
+  flex: 0 0 110px;
+  width: 110px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #397fc2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.stock-search-form button:hover {
+  background: #2869a8;
+}
+
+.stock-search-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stock-search-results {
+  margin-top: 30px;
+}
+
+.stock-search-results h3 {
+  margin-bottom: 15px;
+  color: #f5f5f5;
+}
+
+.stock-search-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px;
+  margin-bottom: 15px;
+  border: 1px solid #465367;
+  border-radius: 10px;
+  background: #252b35;
+  color: #f5f5f5;
+}
+
+.stock-search-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.stock-search-info h3 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 19px;
+}
+
+.stock-search-info p {
+  margin: 7px 0;
+  color: #d0d6df;
+  font-size: 14px;
+}
+
+.stock-search-card .detail-button {
+  flex: 0 0 150px;
+  width: 150px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #397fc2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.stock-search-card .detail-button:hover {
+  background: #2869a8;
+}
+
+.search-message {
+  color: #ff9999;
+  margin: 15px 0;
+}
+
+.stock-search-button {
+  width: auto;
+}
+
 /* スマホ幅用 */
 @media (max-width: 900px) {
 
@@ -736,5 +853,28 @@ button.logout:hover {
   .chart-container {
     margin-left: -5px;
     width: calc(100% + 10px);
+  }
+
+  .stock-search-page {
+    width: 94%;
+  }
+
+  .stock-search-form {
+    gap: 8px;
+  }
+
+  .stock-search-form button {
+    flex-basis: 80px;
+    width: 80px;
+  }
+
+  .stock-search-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stock-search-card .detail-button {
+    flex: none;
+    width: 100%;
   }
 }
