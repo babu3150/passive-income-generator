@@ -57,18 +57,20 @@ function StockSearchPage({ onSelectStock, onBack }) {
         <div className="stock-search-page">
             <header className="header">
                 <h2 className="header-title">不労所得製造機</h2>
+
+                <button type="button" className="back-button" onClick={onBack}>
+                    ホームに戻る
+                </button>
             </header>
 
-            <button type="button" className="back-button" onClick={onBack}>
-                ← ホームに戻る
-            </button>
+            <main className="stock-search-content">
 
-            <h2>銘柄検索</h2>
+                <div className="stock-search-header">
+                    <h2>銘柄検索</h2>
+                    <p>銘柄コード・銘柄名・ティッカーから銘柄を検索できます。</p>
+                </div>
 
-            <p>銘柄コード・銘柄名・ティッカーから銘柄を検索できます。</p>
-
-            <form onSubmit={searchStocks} className="stock-search-form">
-
+                <form onSubmit={searchStocks} className="stock-search-form">
                 <input
                     type="text"
                     value={keyword}
@@ -79,43 +81,38 @@ function StockSearchPage({ onSelectStock, onBack }) {
                 <button type="submit" disabled={loading}>
                     {loading ? "検索中..." : "検索"}
                 </button>
+                </form>
 
-            </form>
+                {error && (
+                    <p className="search-message">{error}</p>
+                )}
 
-            {error && (
-                <p className="search-message">{error}</p>
-            )}
+                {stocks.length > 0 && (
+                    <div className="stock-search-results">
 
-            {stocks.length > 0 && (
-                <div className="stock-search-results">
+                        <h3>検索結果（{stocks.length}件）</h3>
 
-                    <h3>検索結果（{stocks.length}件）</h3>
+                        {stocks.map((stock) => (
+                            <div key={stock.stock_id} className="stock-search-card">
 
-                    {stocks.map((stock) => (
-                        <div key={stock.stock_id} className="stock-search-card">
+                                <div className="stock-search-info">
+                                    <h3>{stock.name}</h3>
 
-                            <div className="stock-search-info">
-                                <h3>{stock.name}</h3>
+                                    <p>銘柄コード：{stock.code}</p>
+                                    <p>ティッカー：{stock.ticker}</p>
+                                    <p>市場：{stock.market || "-"}</p>
+                                    <p>現在株価： {formatPrice(stock.current_price)}</p>
+                                </div>
 
-                                <p>銘柄コード：{stock.code}</p>
-
-                                <p>ティッカー：{stock.ticker}</p>
-
-                                <p>市場：{stock.market || "-"}</p>
-
-                                <p>現在株価： {formatPrice(stock.current_price)}</p>
+                                <button type="button" className="detail-button" onClick={() => onSelectStock(stock)}>
+                                    詳細を見る
+                                </button>
                             </div>
+                        ))}
 
-                            <button type="button" className="detail-button" onClick={() => onSelectStock(stock)}>
-                                詳細を見る
-                            </button>
-
-                        </div>
-                    ))}
-
-                </div>
-            )}
-
+                    </div>
+                )}
+            </main>
         </div>
     );
 }
