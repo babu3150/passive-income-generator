@@ -159,13 +159,14 @@ function HomePage({ onLogout }) {
             <header className="header">
                 <h2 className="header-title">不労所得製造機</h2>
 
-                <button type="button" className="stock-search-button" onClick={() => setShowSearchPage(true)}>
-                    🔍 銘柄を検索する
-                </button>
-
-                <button className="logout" onClick={onLogout}>
-                    ログアウト
-                </button>
+                <div className="header-buttons">
+                    <button type="button" className="stock-search-button" onClick={() => setShowSearchPage(true)}>
+                        銘柄を検索する
+                    </button>
+                    <button className="logout" onClick={onLogout}>
+                        ログアウト
+                    </button>
+                </div>
             </header>
 
             <section className="recommendation-section">

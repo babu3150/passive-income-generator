@@ -762,6 +762,21 @@ button.logout:hover {
 
 .stock-search-button {
   width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 195px;
+  padding: 0 28px;
+  color: #ffffff;
+  background-color: #596575;
+  border: 2px solid #374151;
+  cursor: pointer;
+}
+
+.stock-search-button:hover {
+  background-color: #465363;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 /* スマホ幅用 */
