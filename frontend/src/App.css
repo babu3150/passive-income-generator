@@ -777,15 +777,15 @@ button.logout:hover {
 }
 
 .recommendation-badge.BUY {
-  background-color: #d9534f;
+  background-color: #168443;
 }
 
 .recommendation-badge.SELL {
-  background-color: #2878c8;
+  background-color: #d43d3d;
 }
 
 .recommendation-badge.HOLD {
-  background-color: #697586;
+  background-color: #997600;
 }
 
 .stock-search-card .detail-button {
