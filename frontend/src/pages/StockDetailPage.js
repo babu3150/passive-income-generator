@@ -12,7 +12,7 @@ import {
     ReferenceLine,
 } from "recharts";
 
-function StockDetailPage({ stock, onBack }) {
+function StockDetailPage({ stock, onBack, onLogout }) {
     const isBuy = stock.recommendation === "BUY";
     const isSell = stock.recommendation === "SELL";
     const [history, setHistory] = useState([]);
@@ -86,6 +86,15 @@ function StockDetailPage({ stock, onBack }) {
         <div className="stock-detail-page">
             <header className="header">
                 <h2 className="header-title">不労所得製造機</h2>
+
+                <div className="header-buttons">
+                    <button type="button" className="back-button" onClick={onBack}>
+                        ホームに戻る
+                    </button>
+                    <button className="logout" onClick={onLogout}>
+                        ログアウト
+                    </button>
+                </div>
             </header>
 
             <main className="stock-detail-content">
@@ -365,10 +374,6 @@ function StockDetailPage({ stock, onBack }) {
                 <p className="detail-disclaimer">
                     ※ AIによる予測・推奨は将来の株価を保証するものではありませんので、投資判断はご自身の責任で行ってください
                 </p>
-
-                <button type="button" className="back-button" onClick={onBack}>
-                    おすすめ一覧に戻る
-                </button>
 
             </main>
         </div>
