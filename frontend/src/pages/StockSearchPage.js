@@ -57,14 +57,15 @@ function StockSearchPage({ onSelectStock, onBack, onLogout }) {
         <div className="stock-search-page">
             <header className="header">
                 <h2 className="header-title">不労所得製造機</h2>
-
-                <button type="button" className="back-button" onClick={onBack}>
-                    ホームに戻る
-                </button>
-
-                <button className="logout" onClick={onLogout}>
-                    ログアウト
-                </button>
+                
+                <div className="header-buttons">
+                    <button type="button" className="back-button" onClick={onBack}>
+                        ホームに戻る
+                    </button>
+                    <button className="logout" onClick={onLogout}>
+                        ログアウト
+                    </button>
+                </div>
             </header>
 
             <main className="stock-search-content">

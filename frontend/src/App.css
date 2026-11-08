@@ -100,23 +100,15 @@ button.logout:hover {
   align-items: center;
   justify-content: center;
   min-width: 195px;
-  min-height: 54px;
   padding: 0 28px;
-  margin: 0;
   color: #344b66;
   background-color: rgba(225, 235, 247, 0.85);
   border: 2px solid #4b82c3;
-  border-color: #829bb8;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .back-button:hover {
   background-color: #d5e3f3;
-  border-color: #6685a8;
   box-shadow: 0 4px 12px rgba(75, 110, 150, 0.2);
   transform: translateY(-1px);
 }
@@ -319,6 +311,11 @@ button.logout:hover {
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #1f3147;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 .recommendation-section {
