@@ -111,23 +111,28 @@ function HomePage({ onLogout }) {
 
     // 銘柄検索画面を表示
     if (showSearchPage) {
-    return (
-        <StockSearchPage
-            onBack={() => setShowSearchPage(false)}
-            onSelectStock={(stock) => {
-                setSelectedStock(stock);
-                setShowSearchPage(false);
-            }}
-        />
-    );
-}
+        return (
+            <StockSearchPage
+                onBack={() => setShowSearchPage(false)}
+                onSelectStock={(stock) => {
+                    setSelectedStock(stock);
+                    setShowSearchPage(false);
+                }}
+            />
+        );
+    }
 
     // 詳細画面を表示
     if (selectedStock) {
         return (
             <StockDetailPage
+                key={selectedStock.stock_id}
                 stock={selectedStock}
                 onBack={() => setSelectedStock(null)}
+                onSearch={() => {
+                    setSelectedStock(null);
+                    setShowSearchPage(true);
+                }}
             />
         );
     }
@@ -160,7 +165,14 @@ function HomePage({ onLogout }) {
                 <h2 className="header-title">不労所得製造機</h2>
 
                 <div className="header-buttons">
-                    <button type="button" className="stock-search-button" onClick={() => setShowSearchPage(true)}>
+                    <button
+                        type="button"
+                        className="stock-search-button"
+                        onClick={() => {
+                            setSelectedStock(null);
+                            setShowSearchPage(true);
+                        }}
+                    >
                         銘柄を検索する
                     </button>
                     <button className="logout" onClick={onLogout}>

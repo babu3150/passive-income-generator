@@ -13,14 +13,12 @@ import {
     ReferenceLine,
 } from "recharts";
 
-function StockDetailPage({ stock, onBack, onLogout }) {
+function StockDetailPage({ stock, onBack, onSearch, onLogout }) {
     const isBuy = stock.recommendation === "BUY";
     const isSell = stock.recommendation === "SELL";
     const [history, setHistory] = useState([]);
     const [historyLoading, setHistoryLoading] = useState(true);
     const [historyError, setHistoryError] = useState("");
-    const [selectedStock, setSelectedStock] = useState(null);
-    const [showSearchPage, setShowSearchPage] = useState(false);
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -85,19 +83,6 @@ function StockDetailPage({ stock, onBack, onLogout }) {
         </div>
     );
 
-    // 銘柄検索画面を表示
-    if (showSearchPage) {
-        return (
-            <StockSearchPage
-                onBack={() => setShowSearchPage(false)}
-                onSelectStock={(stock) => {
-                    setSelectedStock(stock);
-                    setShowSearchPage(false);
-                }}
-            />
-        );
-    }
-
     return (
         <div className="stock-detail-page">
             <header className="header">
@@ -107,7 +92,11 @@ function StockDetailPage({ stock, onBack, onLogout }) {
                     <button type="button" className="back-button" onClick={onBack}>
                         ホームに戻る
                     </button>
-                    <button type="button" className="stock-search-button" onClick={() => setShowSearchPage(true)}>
+                    <button
+                        type="button"
+                        className="stock-search-button"
+                        onClick={onSearch}
+                    >
                         銘柄を検索する
                     </button>
                     <button className="logout" onClick={onLogout}>

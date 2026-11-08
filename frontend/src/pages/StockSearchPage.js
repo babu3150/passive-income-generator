@@ -107,6 +107,42 @@ function StockSearchPage({ onSelectStock, onBack, onLogout }) {
                                     <p>ティッカー：{stock.ticker}</p>
                                     <p>市場：{stock.market || "-"}</p>
                                     <p>現在株価： {formatPrice(stock.current_price)}</p>
+
+                                    <div className="stock-search-ai-info">
+
+                                        <div className="stock-search-ai-item">
+                                            <span>AI予測株価</span>
+                                            <strong>
+                                                {formatPrice(stock.predicted_price)}
+                                            </strong>
+                                        </div>
+
+                                        <div className="stock-search-ai-item">
+                                            <span>予測変動率</span>
+                                            <strong className={
+                                                Number(stock.prediction_change_percent) > 0
+                                                    ? "positive"
+                                                    : Number(stock.prediction_change_percent) < 0
+                                                        ? "negative"
+                                                        : ""
+                                            }>
+                                                {stock.prediction_change_percent != null
+                                                    ? `${Number(stock.prediction_change_percent).toFixed(2)}%`
+                                                    : "-"
+                                                }
+                                            </strong>
+                                        </div>
+
+                                        <div className="stock-search-ai-item">
+                                            <span>推奨情報</span>
+                                            <strong className={`recommendation-badge ${
+                                                stock.recommendation || "NONE"
+                                            }`}>
+                                                {stock.recommendation || "-"}
+                                            </strong>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
 
                                 <button type="button" className="detail-button" onClick={() => onSelectStock(stock)}>

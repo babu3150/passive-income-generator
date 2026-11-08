@@ -739,6 +739,63 @@ button.logout:hover {
   color: #45566b;
 }
 
+.stock-search-ai-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+  padding: 12px;
+  background-color: rgba(230, 237, 247, 0.8);
+  border: 1px solid #aab8ca;
+  border-radius: 8px;
+}
+
+.stock-search-ai-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 110px;
+}
+
+.stock-search-ai-item span {
+  font-size: 13px;
+  color: #526174;
+}
+
+.stock-search-ai-item strong {
+  font-size: 17px;
+  color: #26384e;
+}
+
+.stock-search-ai-item .positive {
+  color: #d93636;
+}
+
+.stock-search-ai-item .negative {
+  color: #2878c8;
+}
+
+.recommendation-badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 14px !important;
+  color: white !important;
+}
+
+.recommendation-badge.BUY {
+  background-color: #d9534f;
+}
+
+.recommendation-badge.SELL {
+  background-color: #2878c8;
+}
+
+.recommendation-badge.HOLD {
+  background-color: #697586;
+}
+
 .stock-search-card .detail-button {
   flex: 0 0 150px;
   width: 150px;
