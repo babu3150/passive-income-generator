@@ -409,11 +409,11 @@ button.logout:hover {
   font-weight: 700;
 }
 
-.stock-prediction.positive {
+.positive {
   color: #2e7d32;
 }
 
-.stock-prediction.negative {
+.negative {
   color: #e53935;
 }
 
@@ -619,14 +619,6 @@ button.logout:hover {
   color: #888;
 }
 
-.positive {
-  color: #168443;
-}
-
-.negative {
-  color: #d43d3d;
-}
-
 .detail-disclaimer {
   color: #888;
   font-size: 12px;
@@ -768,11 +760,11 @@ button.logout:hover {
 }
 
 .stock-search-ai-item .positive {
-  color: #d93636;
+    color: #2e7d32;
 }
 
 .stock-search-ai-item .negative {
-  color: #2878c8;
+    color: #e53935;
 }
 
 .recommendation-badge {
