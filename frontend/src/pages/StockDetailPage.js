@@ -21,6 +21,13 @@ function StockDetailPage({ stock, onBack, onSearch, onLogout }) {
     const [historyError, setHistoryError] = useState("");
 
     useEffect(() => {
+        // 画面を最上部にスクロール
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant"
+        });
+        
         const fetchHistory = async () => {
             try {
                 const response = await fetch(
