@@ -2,9 +2,14 @@ import React, {useState} from "react";
 import "./App.css";
 // ログインページ（ログイン画面）用コンポーネント
 import LoginPage from "./pages/LoginPage";
+// ユーザー登録ページ（ユーザー登録画面）用コンポーネント
+import SignupPage from "./pages/SignupPage";
 // ホームページ（ホーム画面）用コンポーネント
 import HomePage from "./pages/HomePage";
-import SignupPage from "./pages/SignupPage";
+// 銘柄詳細ページ（銘柄詳細画面）用コンポーネント
+import StockDetailPage from "./pages/StockDetailPage";
+// 銘柄検索ページ（銘柄検索画面）用コンポーネント
+import StockSearchPage from "./pages/StockSearchPage";
 
 function App() {
   // ログイン状態の管理用ステート（isLoggedInの真偽値で管理）
