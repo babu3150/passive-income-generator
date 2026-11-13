@@ -21,12 +21,20 @@ function App() {
 
   // ログアウト
   const handleLogout = async () => {
-    const response = await fetch("/api/logout", {
-      method: "POST",
-    });
-    if (response.ok) {
-      setIsLoggedIn(false);
-      setPage("login");
+    try {
+        const response = await fetch("/api/logout", {
+          method: "POST",
+        });
+
+        if (!response.ok) {
+          throw new Error("ログアウトに失敗しました");
+        }
+
+        setIsLoggedIn(false);
+        setPage("login");
+    } catch (error) {
+      console.error("ログアウトエラー：", error);
+      alert("ログアウトに失敗しました");
     }
   };
 

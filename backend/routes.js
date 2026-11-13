@@ -50,6 +50,26 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// ログアウト
+router.post("/logout",  (req, res) => {
+    req.session.destroy((error) => {
+        if (error) {
+            console.error("ログアウトエラー：", error);
+
+            return res.status(500).json({
+                message: "ログアウトに失敗しました",
+            });
+        }
+
+        // セッションのCookieを削除
+        res.clearCookie("connect.sid");
+
+        return res.status(200).json({
+            message: "ログアウトしました",
+        });
+    });
+});
+
 // 銘柄の推奨情報を取得
 router.get("/recommendations", async (req, res) => {
     try {
