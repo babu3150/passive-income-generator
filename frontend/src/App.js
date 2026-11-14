@@ -71,7 +71,25 @@ function App() {
       ) : (
         <>
           {page === "home" && (
-            <HomePage onLogout={handleLogout} />
+            <HomePage
+              onLogout={handleLogout}
+              onMoveStockSearch={() => setPage("stock-search")}
+            />
+          )}
+
+          {page === "stock-detail" && (
+            <StockDetailPage
+              onLogout={handleLogout}
+              onMoveHome={() => setPage("home")}
+              onMoveStockSearch={() => setPage("stock-search")}
+            />
+          )}
+
+          {page === "stock-search" && (
+            <StockSearchPage
+              onLogout={handleLogout}
+              onMoveHome={() => setPage("home")}
+            />
           )}
         </>
       )}
