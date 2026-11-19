@@ -13,7 +13,7 @@ import {
     ReferenceLine,
 } from "recharts";
 
-function StockDetailPage({ stock, onBack, onSearch, onLogout }) {
+function StockDetailPage({ stock, onLogout, onMoveHome, onMoveStockSearch }) {
     const isBuy = stock.recommendation === "BUY";
     const isSell = stock.recommendation === "SELL";
     const [history, setHistory] = useState([]);
@@ -96,13 +96,13 @@ function StockDetailPage({ stock, onBack, onSearch, onLogout }) {
                 <h2 className="header-title">不労所得製造機</h2>
 
                 <div className="header-buttons">
-                    <button type="button" className="back-button" onClick={onBack}>
+                    <button type="button" className="back-button" onClick={onMoveHome}>
                         ホームに戻る
                     </button>
                     <button
                         type="button"
                         className="stock-search-button"
-                        onClick={onSearch}
+                        onClick={onMoveStockSearch}
                     >
                         銘柄を検索する
                     </button>
