@@ -120,14 +120,39 @@ CREATE TABLE IF NOT EXISTS portfolios (
     user_id INTEGER NOT NULL REFERENCES users(id),
     stock_id INTEGER NOT NULL REFERENCES stocks(id),
     -- 保有株数
-    quantity INTEGER NOT NULL DEFAULT 0,
+    quantity INTEGER NOT NULL DEFAULT 0
+        CHECK (quantity >= 0),
     -- 平均取得価格
-    average_price NUMERIC(12, 2),
+    average_price NUMERIC(14, 2),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     -- 最終更新日時
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     -- 1ユーザー・1銘柄につき1レコード
     UNIQUE(user_id, stock_id)
+);
+
+-- 売買履歴テーブル
+CREATE TABLE IF NOT EXISTS transactions (
+    id BIGSERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    stock_id INTEGER NOT NULL REFERENCES stocks(id),
+    -- 購入or売却
+    transaction_type VARCHAR(10) NOT NULL
+        CHECK (transaction_type IN ('BUY', 'SELL')),
+    -- 売買数量
+    quantity INTEGER NOT NULL
+        CHECK (quantity > 0),
+    -- 1株あたりの約定価格
+    price NUMERIC(14, 2) NOT NULL
+        CHECK (price > 0),
+    -- 手数料
+    fee NUMERIC(14, 2) NOT NULL DEFAULT 0
+        CHECK (fee >= 0),
+    -- 取引日時
+    traded_at TIMESTAMP NOT NULL,
+    -- メモ
+    memo TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- インデックス
@@ -149,3 +174,10 @@ CREATE INDEX IF NOT EXISTS idx_recommendations_stock_id ON recommendations(stock
 -- 保有銘柄
 CREATE INDEX IF NOT EXISTS idx_portfolios_user_id ON portfolios(user_id);
 CREATE INDEX IF NOT EXISTS idx_portfolios_stock_id ON portfolios(stock_id);
+
+-- 売買履歴
+CREATE INDEX IF NOT EXISTS idx_transactions_user_id ON transactions(user_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_stock_id ON transactions(stock_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_stock ON transactions(user_id, stock_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_traded_at ON transactions(user_id, traded_at DESC);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_type ON transactions(user_id, transaction_type);
