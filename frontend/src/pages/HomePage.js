@@ -138,7 +138,7 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock }) {
                     <button
                         type="button"
                         className="stock-search-button"
-                        onClick={() => {onMoveStockSearch}}
+                        onClick={onMoveStockSearch}
                     >
                         銘柄を検索する
                     </button>
