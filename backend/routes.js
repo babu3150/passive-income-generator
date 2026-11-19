@@ -4,6 +4,7 @@ const pool = require("./db");
 
 const router = express.Router();
 
+// ログイン
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -32,6 +33,9 @@ router.post("/login", async (req, res) => {
                 message: "ユーザー名またはパスワードが正しくありません",
             });
         }
+
+        // ログインユーザーのIDをセッションに保存
+        req.session.userId = user.id;
 
         return res.status(200).json({
             message: "ログインしました",
