@@ -10,18 +10,26 @@ function LoginForm({ onLogin }) {
     const handleSubmit = async (e) => {
         // デフォルトのフォーム送信をキャンセル
         e.preventDefault();
-        const response = await fetch("/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-        });
 
-        if (response.ok) {
-            onLogin();
-        } else {
-            setError("入力内容に誤りがあるので、入力し直してください");
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                onLogin(data.user);
+            } else {
+                setError(data.message || "入力内容に誤りがあるので、入力し直してください");
+            }
+        } catch (error) {
+            console.error("ログインエラー：", error);
+            setError("ログインに失敗しました");
         }
     };
 

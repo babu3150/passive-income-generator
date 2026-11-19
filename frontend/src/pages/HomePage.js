@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import StockDetailPage from "./StockDetailPage";
 import StockSearchPage from "./StockSearchPage";
 
-function HomePage({ onLogout, onMoveStockSearch, onSelectStock }) {
+function HomePage({ onLogout, onMoveStockSearch, onSelectStock, loginUser }) {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -194,7 +194,7 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock }) {
 
                 {/* 現時点では仮データ */}
                 <h2 className="section-title">
-                    💰Aさんの保有株
+                    💰{loginUser?.username}さんの保有株
                 </h2>
 
                 <div className="holdings-list">

@@ -15,6 +15,9 @@ function App() {
   // ログイン状態の管理用ステート（isLoggedInの真偽値で管理）
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // ログインユーザーの管理用ステート
+  const [loginUser, setLoginUser] = useState(null);
+
   // 現在ページの管理用ステート
   const [page, setPage] = useState("login");
 
@@ -22,7 +25,8 @@ function App() {
   const [selectedStock, setSelectedStock] = useState(null);
 
   // ログイン
-  const handleLogin = () => {
+  const handleLogin = (user) => {
+    setLoginUser(user);
     setIsLoggedIn(true);
     setPage("home");
   };
@@ -96,6 +100,7 @@ function App() {
               onLogout={handleLogout}
               onMoveStockSearch={() => setPage("stock-search")}
               onSelectStock={handleMoveStockDetail}
+              loginUser={loginUser}
             />
           )}
 
