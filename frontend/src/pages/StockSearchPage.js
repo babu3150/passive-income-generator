@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function StockSearchPage({ onSelectStock, onBack, onLogout }) {
+function StockSearchPage({ onLogout, onMoveHome, onSelectStock }) {
     const [keyword, setKeyword] = useState("");
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ function StockSearchPage({ onSelectStock, onBack, onLogout }) {
                 <h2 className="header-title">不労所得製造機</h2>
                 
                 <div className="header-buttons">
-                    <button type="button" className="back-button" onClick={onBack}>
+                    <button type="button" className="back-button" onClick={onMoveHome}>
                         ホームに戻る
                     </button>
                     <button className="logout" onClick={onLogout}>
