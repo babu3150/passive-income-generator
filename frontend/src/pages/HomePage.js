@@ -2,12 +2,10 @@ import React, {useState, useEffect} from "react";
 import StockDetailPage from "./StockDetailPage";
 import StockSearchPage from "./StockSearchPage";
 
-function HomePage({ onLogout }) {
+function HomePage({ onLogout, onMoveStockSearch, onSelectStock }) {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [selectedStock, setSelectedStock] = useState(null);
-    const [showSearchPage, setShowSearchPage] = useState(false);
 
     // 銘柄の推奨情報をAPIから取得
     useEffect(() => {
@@ -102,40 +100,12 @@ function HomePage({ onLogout }) {
                     {formatPrediction(stock.prediction_change_percent)}予想
                 </div>
 
-                <button type="button" className="detail-button" onClick={() => setSelectedStock(stock)}>
+                <button type="button" className="detail-button" onClick={() => onSelectStock(stock)}>
                     詳細をみる
                 </button>
             </div>
         );
     };
-
-    // 銘柄検索画面を表示
-    if (showSearchPage) {
-        return (
-            <StockSearchPage
-                onBack={() => setShowSearchPage(false)}
-                onSelectStock={(stock) => {
-                    setSelectedStock(stock);
-                    setShowSearchPage(false);
-                }}
-            />
-        );
-    }
-
-    // 詳細画面を表示
-    if (selectedStock) {
-        return (
-            <StockDetailPage
-                key={selectedStock.stock_id}
-                stock={selectedStock}
-                onBack={() => setSelectedStock(null)}
-                onSearch={() => {
-                    setSelectedStock(null);
-                    setShowSearchPage(true);
-                }}
-            />
-        );
-    }
 
     // 保有株（現時点では仮データ）
     const holdings = [
@@ -168,10 +138,7 @@ function HomePage({ onLogout }) {
                     <button
                         type="button"
                         className="stock-search-button"
-                        onClick={() => {
-                            setSelectedStock(null);
-                            setShowSearchPage(true);
-                        }}
+                        onClick={() => {onMoveStockSearch}}
                     >
                         銘柄を検索する
                     </button>

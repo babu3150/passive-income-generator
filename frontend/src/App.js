@@ -18,6 +18,9 @@ function App() {
   // 現在ページの管理用ステート
   const [page, setPage] = useState("login");
 
+  // 選択した銘柄の管理用ステート
+  const [selectedStock, setSelectedStock] = useState(null);
+
   // ログイン
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -36,12 +39,31 @@ function App() {
         }
 
         setIsLoggedIn(false);
+        setSelectedStock(null);
         setPage("login");
+
     } catch (error) {
       console.error("ログアウトエラー：", error);
       alert("ログアウトに失敗しました");
     }
   };
+
+  // 銘柄詳細画面に遷移
+  const handleMoveStockDetail = (stock) => {
+    setSelectedStock(stock);
+    setPage("stock-detail");
+  }
+
+  // 銘柄検索画面に遷移
+  const handleMoveStockSearch = () => {
+    setPage("stock-search");
+  }
+
+  // ホーム画面に遷移
+  const handleMoveHome = () => {
+    setSelectedStock(null);
+    setPage("home");
+  }
 
   // ユーザー登録（登録後はホーム画面に遷移）
   const handleSignup = () => {
@@ -51,7 +73,6 @@ function App() {
 
   return (
     <div>
-      {/* ログアウト中はログイン画面、ログイン中はホーム画面を表示 */}
       {!isLoggedIn ? (
         <>
           {page === "login" && (
@@ -74,21 +95,25 @@ function App() {
             <HomePage
               onLogout={handleLogout}
               onMoveStockSearch={() => setPage("stock-search")}
+              onSelectStock={handleMoveStockDetail}
             />
           )}
 
-          {page === "stock-detail" && (
+          {page === "stock-detail" && selectedStock && (
             <StockDetailPage
+              key={selectedStock.stock_id}
+              stock={selectedStock}
               onLogout={handleLogout}
-              onMoveHome={() => setPage("home")}
-              onMoveStockSearch={() => setPage("stock-search")}
+              onMoveHome={handleMoveHome}
+              onMoveStockSearch={handleMoveStockSearch}
             />
           )}
 
           {page === "stock-search" && (
             <StockSearchPage
               onLogout={handleLogout}
-              onMoveHome={() => setPage("home")}
+              onMoveHome={handleMoveHome}
+              onSelectStock={handleMoveStockDetail}
             />
           )}
         </>
