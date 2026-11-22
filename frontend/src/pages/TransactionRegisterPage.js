@@ -151,6 +151,9 @@ function TransactionRegisterPage({ onMoveHome, onLogout }) {
 
             <main className="transaction-register-main">
                 <h2>保有株・売買登録</h2>
+                <p className="transaction-description">
+                    保有株の購入・売却履歴を登録できます
+                </p>
 
                 <form onSubmit={handleSubmit}>
                     {/* 銘柄検索 */}
