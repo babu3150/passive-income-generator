@@ -102,6 +102,7 @@ function App() {
               onLogout={handleLogout}
               onMoveStockSearch={() => setPage("stock-search")}
               onSelectStock={handleMoveStockDetail}
+              onMoveTransactionRegister={() => setPage("transaction-register")}
               loginUser={loginUser}
             />
           )}

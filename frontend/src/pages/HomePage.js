@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import StockDetailPage from "./StockDetailPage";
 import StockSearchPage from "./StockSearchPage";
 
-function HomePage({ onLogout, onMoveStockSearch, onSelectStock, loginUser }) {
+function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactionRegister, loginUser }) {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -193,9 +193,18 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, loginUser }) {
             <section className="holdings-section">
 
                 {/* 現時点では仮データ */}
-                <h2 className="section-title">
-                    💰{loginUser?.username}さんの保有株
-                </h2>
+                <div className="portfolio-header">
+                    <h2 className="section-title">
+                        💰{loginUser?.username}さんの保有株
+                    </h2>
+
+                    <button
+                        type="button"
+                        onClick={onMoveTransactionRegister}
+                    >
+                        売買を登録
+                    </button>
+                </div>
 
                 <div className="holdings-list">
 
