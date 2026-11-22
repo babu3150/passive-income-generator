@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import "./TransactionRegisterPage.css";
 
-function TransactionRegisterPage({ onMoveHome }) {
+function TransactionRegisterPage({ onMoveHome, onLogout }) {
     const [searchText, setSearchText] = useState("");
     const [stocks, setStocks] = useState([]);
     const [selectedStock, setSelectedStock] = useState(null);
@@ -137,151 +136,166 @@ function TransactionRegisterPage({ onMoveHome }) {
 
     return (
         <div className="transaction-register-page">
-            <h1>保有株・売買登録</h1>
-
-            <form onSubmit={handleSubmit}>
-                {/* 銘柄検索 */}
-                <div className="transaction-form-group">
-                    <label>銘柄</label>
-
-                    <input
-                        type="text"
-                        value={searchText}
-                        onChange={(e) => handleSearch(e.target.value)}
-                        placeholder="銘柄名・証券コードで検索"
-                    />
-
-                    {stocks.length > 0 && (
-                        <ul className="transaction-stock-results">
-                            {stocks.map((stock) => (
-                                <li key={stock.stock_id}>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleSelectStock(stock)}
-                                    >
-                                        {stock.code} - {stock.name}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-
-                    {selectedStock && (
-                        <p className="transaction-selected-stock">
-                            選択中：{selectedStock.name}
-                            （{selectedStock.code}）
-                        </p>
-                    )}
+            <header className="header">
+                <h2 className="header-title">不労所得製造機</h2>
+                
+                <div className="header-buttons">
+                    <button type="button" className="back-button" onClick={onMoveHome}>
+                        ホームに戻る
+                    </button>
+                    <button className="logout" onClick={onLogout}>
+                        ログアウト
+                    </button>
                 </div>
+            </header>
 
-                {/* 取引区分 */}
-                <div className="transaction-form-group">
-                    <label>取引区分</label>
+            <main className="transaction-register-main">
+                <h2>保有株・売買登録</h2>
 
-                    <div className="transaction-type-buttons">
-                        <button
-                            type="button"
-                            className={transactionType === "BUY" ? "active" : ""}
-                            onClick={() => setTransactionType("BUY")}
-                        >
-                            購入
-                        </button>
+                <form onSubmit={handleSubmit}>
+                    {/* 銘柄検索 */}
+                    <div className="transaction-form-group">
+                        <label>銘柄</label>
 
-                        <button
-                            type="button"
-                            className={transactionType === "SELL" ? "active" : ""}
-                            onClick={() => setTransactionType("SELL")}
-                        >
-                            売却
-                        </button>
+                        <input
+                            type="text"
+                            value={searchText}
+                            onChange={(e) => handleSearch(e.target.value)}
+                            placeholder="銘柄名・証券コードで検索"
+                        />
+
+                        {stocks.length > 0 && (
+                            <ul className="transaction-stock-results">
+                                {stocks.map((stock) => (
+                                    <li key={stock.stock_id}>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleSelectStock(stock)}
+                                        >
+                                            {stock.code} - {stock.name}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        {selectedStock && (
+                            <p className="transaction-selected-stock">
+                                選択中：{selectedStock.name}
+                                （{selectedStock.code}）
+                            </p>
+                        )}
                     </div>
-                </div>
 
-                {/* 数量 */}
-                <div className="transaction-form-group">
-                    <label>数量（株）</label>
-                    <input
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                        placeholder="例：100"
-                        required
-                    />
-                </div>
+                    {/* 取引区分 */}
+                    <div className="transaction-form-group">
+                        <label>取引区分</label>
 
-                {/* 約定価格 */}
-                <div className="transaction-form-group">
-                    <label>約定価格（1株あたり・円）</label>
-                    <input
-                        type="number"
-                        min="0.01"
-                        step="0.01"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        placeholder="例：2500"
-                        required
-                    />
-                </div>
+                        <div className="transaction-type-buttons">
+                            <button
+                                type="button"
+                                className={transactionType === "BUY" ? "active" : ""}
+                                onClick={() => setTransactionType("BUY")}
+                            >
+                                購入
+                            </button>
 
-                {/* 手数料 */}
-                <div className="transaction-form-group">
-                    <label>手数料（円）</label>
-                    <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={fee}
-                        onChange={(e) => setFee(e.target.value)}
-                    />
-                </div>
+                            <button
+                                type="button"
+                                className={transactionType === "SELL" ? "active" : ""}
+                                onClick={() => setTransactionType("SELL")}
+                            >
+                                売却
+                            </button>
+                        </div>
+                    </div>
 
-                {/* 取引日時 */}
-                <div className="transaction-form-group">
-                    <label>取引日時</label>
-                    <input
-                        type="datetime-local"
-                        value={tradedAt}
-                        onChange={(e) => setTradedAt(e.target.value)}
-                        required
-                    />
-                </div>
+                    {/* 数量 */}
+                    <div className="transaction-form-group">
+                        <label>数量（株）</label>
+                        <input
+                            type="number"
+                            min="1"
+                            step="1"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            placeholder="例：100"
+                            required
+                        />
+                    </div>
 
-                {/* メモ */}
-                <div className="transaction-form-group">
-                    <label>メモ</label>
-                    <textarea
-                        value={memo}
-                        onChange={(e) => setMemo(e.target.value)}
-                        placeholder="取引に関するメモ（任意）"
-                    />
-                </div>
+                    {/* 約定価格 */}
+                    <div className="transaction-form-group">
+                        <label>約定価格（1株あたり・円）</label>
+                        <input
+                            type="number"
+                            min="0.01"
+                            step="0.01"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            placeholder="例：2500"
+                            required
+                        />
+                    </div>
 
-                {error && (
-                    <p className="transaction-error">{error}</p>
-                )}
+                    {/* 手数料 */}
+                    <div className="transaction-form-group">
+                        <label>手数料（円）</label>
+                        <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value={fee}
+                            onChange={(e) => setFee(e.target.value)}
+                        />
+                    </div>
 
-                {success && (
-                    <p className="transaction-success">{success}</p>
-                )}
+                    {/* 取引日時 */}
+                    <div className="transaction-form-group">
+                        <label>取引日時</label>
+                        <input
+                            type="datetime-local"
+                            value={tradedAt}
+                            onChange={(e) => setTradedAt(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className="transaction-submit-button"
-                    disabled={loading}
-                >
-                    {loading ? "登録中..." : "売買を登録する"}
-                </button>
+                    {/* メモ */}
+                    <div className="transaction-form-group">
+                        <label>メモ</label>
+                        <textarea
+                            value={memo}
+                            onChange={(e) => setMemo(e.target.value)}
+                            placeholder="取引に関するメモ（任意）"
+                        />
+                    </div>
 
-                <button
-                    type="button"
-                    className="transaction-back-button"
-                    onClick={onMoveHome}
-                >
-                    戻る
-                </button>
-            </form>
+                    {error && (
+                        <p className="transaction-error">{error}</p>
+                    )}
+
+                    {success && (
+                        <p className="transaction-success">{success}</p>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="transaction-submit-button"
+                        disabled={loading}
+                    >
+                        {loading ? "登録中..." : "売買を登録する"}
+                    </button>
+
+                    <button
+                        type="button"
+                        className="transaction-back-button"
+                        onClick={onMoveHome}
+                    >
+                        戻る
+                    </button>
+                </form>
+            </main>
         </div>
     );
 }
