@@ -280,7 +280,8 @@ button.logout:hover {
 /* ホーム画面 */
 .home-page,
 .stock-detail-page,
-.stock-search-page {
+.stock-search-page,
+.transaction-register-page {
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
@@ -828,6 +829,126 @@ button.logout:hover {
   transform: translateY(-1px);
 }
 
+/* 売買登録フォーム */
+.transaction-register-main {
+  width: 90%;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #252b35;
+  border: 1px solid #555;
+  border-radius: 10px;
+}
+
+.transaction-register-main h2 {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.transaction-form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.transaction-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.transaction-form-group input,
+.transaction-form-group textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  color: #fff;
+  background: #343c49;
+  border: 1px solid #777;
+  border-radius: 5px;
+}
+
+.transaction-form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.transaction-stock-results {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  max-height: 250px;
+  padding: 0;
+  margin: 4px 0 0;
+  overflow-y: auto;
+  list-style: none;
+  background: #343c49;
+  border: 1px solid #777;
+  border-radius: 5px;
+}
+
+.transaction-stock-results li button {
+  width: 100%;
+  padding: 10px;
+  color: #fff;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.transaction-stock-results li button:hover {
+  background: #4b586a;
+}
+
+.transaction-selected-stock {
+  color: #8ed8ff;
+}
+
+.transaction-type-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.transaction-type-buttons button {
+  flex: 1;
+  padding: 10px;
+  color: #fff;
+  background: #454e5c;
+  border: 1px solid #777;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.transaction-type-buttons button.active {
+  background: #2675ad;
+  border-color: #5ba9e5;
+}
+
+.transaction-register-main .transaction-submit-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  color: #fff;
+  background: #2675ad;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.transaction-register-main .transaction-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.transaction-error {
+  color: #ff7777;
+}
+
+.transaction-success {
+  color: #8be0a0;
+}
+
 /* スマホ幅用 */
 @media (max-width: 900px) {
 
@@ -984,5 +1105,11 @@ button.logout:hover {
   .stock-search-card .detail-button {
     flex: none;
     width: 100%;
+  }
+
+  .transaction-register-main {
+    width: auto;
+    margin: 15px;
+    padding: 18px;
   }
 }
