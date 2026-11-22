@@ -10,6 +10,8 @@ import HomePage from "./pages/HomePage";
 import StockDetailPage from "./pages/StockDetailPage";
 // 銘柄検索ページ（銘柄検索画面）用コンポーネント
 import StockSearchPage from "./pages/StockSearchPage";
+// 売買履歴登録ページ（売買履歴登録画面）用コンポーネント
+import TransactionRegisterPage from "./pages/TransactionRegisterPage";
 
 function App() {
   // ログイン状態の管理用ステート（isLoggedInの真偽値で管理）
@@ -119,6 +121,13 @@ function App() {
               onLogout={handleLogout}
               onMoveHome={handleMoveHome}
               onSelectStock={handleMoveStockDetail}
+            />
+          )}
+
+          {page === "transaction-register" && (
+            <TransactionRegisterPage
+              onMoveHome={handleMoveHome}
+              onLogout={handleLogout}
             />
           )}
         </>
