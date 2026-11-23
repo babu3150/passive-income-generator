@@ -135,27 +135,21 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
         );
     };
 
-    // 保有株（現時点では仮データ）
-    const holdings = [
-        {
-            name: "三菱UFJフィナンシャル・グループ",
-            code: "8306",
-            status: "保有継続",
-            type: "buy",
-        },
-        {
-            name: "ソニーグループ",
-            code: "6758",
-            status: "売却検討",
-            type: "sell",
-        },
-        {
-            name: "任天堂",
-            code: "7974",
-            status: "様子見",
-            type: "hold",
-        },
-    ];
+    // 売買履歴の金額の表示形式
+    const formatTransactionPrice = (price) => {
+        if (price == null ) return "-";
+
+        return Number(price).toLocaleString("ja-JP", {
+            maximumFractionDigits: 2,
+        });
+    };
+
+    // 売買履歴の取引日時の表示形式
+    const formatTransactionDate = (date) => {
+        if (!date) return "-";
+
+        return new Date(date).toLocaleString("ja-JP");
+    };
 
     return (
         <div className="home-page">
