@@ -214,7 +214,6 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
 
             <section className="holdings-section">
 
-                {/* 現時点では仮データ */}
                 <div className="portfolio-header">
                     <h2 className="section-title">
                         💰{loginUser?.username}さんの保有株
@@ -228,28 +227,51 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
                     </button>
                 </div>
 
-                <div className="holdings-list">
+                {transactionsLoading ? (
+                    <p>売買履歴を読み込み中...</p>
+                ) : transactionsError ? (
+                    <p className="error-message">{transactionsError}</p>
+                ) : transactions.length === 0 ? (
+                    <p>まだ売買履歴が登録されていません</p>
+                ) : (
+                    <div className="holdings-list">
+                        {transactions.map((transaction) => (
+                            <div className="holding-item" key={transaction.transaction_id}>
+                                <div className="holding-stock-info">
+                                    <strong className="holding-stock-name">
+                                        {transaction.name} ({transaction.code})
+                                    </strong>
 
-                    {holdings.map((stock) => (
-                        <div className="holding-item" key={stock.name}>
-                            <span className="holding-stock-name">
-                                {stock.name}（{stock.code}）
-                            </span>
+                                    <span>
+                                        {transaction.transaction_type === "BUY"
+                                            ? "🟢 購入"
+                                            : "🔴 売却"}
+                                    </span>
 
-                            <span className={`holding-status ${stock.type}`}>
-                                {stock.type === "buy" && "🟢"}
-                                {stock.type === "sell" && "🔴"}
-                                {stock.type === "hold" && "🟡"}
+                                    <span>
+                                        {formatTransactionDate(transaction.traded_at)}
+                                    </span>
+                                </div>
 
-                                {stock.status}
-                                <button type="button" className="detail-button">
-                                    詳細をみる
-                                </button>
-                            </span>
-                        </div>
-                    ))}
+                                <div className="holding-status">
+                                    {Number(transaction.quantity).toLocaleString("ja-JP")}株
+                                    x {formatTransactionPrice(transaction.price)}円
 
-                </div>
+                                    <div>
+                                        手数料：
+                                        {formatTransactionPrice(transaction.fee)}円
+                                    </div>
+                                </div>
+
+                                {transaction.memo && (
+                                    <p className="transaction-memo">
+                                        メモ：{transaction.memo}
+                                    </p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </section>
         </div>
     );
