@@ -844,10 +844,9 @@ button.logout:hover {
 }
 
 .transaction-register-main h2 {
-  margin-bottom: 12px;
-  color: #20364f;
+  margin: 0 0 12px;
   font-size: 26px;
-  text-align: left;
+  color: #20364f;
 }
 
 .transaction-description {
