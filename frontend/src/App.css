@@ -455,17 +455,28 @@ button.logout:hover {
   border-bottom: none;
 }
 
+.hoiding-stock-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hoiding-stock-info strong {
+  color: #20364f;
+}
+
+.hoiding-stock-info span {
+  color: #34495e;
+}
+
 .holding-stock-name {
   font-weight: 700;
   color: #1f3854;
 }
 
 .holding-status {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-weight: 600;
-  white-space: nowrap;
+  color: #34495e;
+  text-align: right;
 }
 
 .holding-status.buy {
@@ -486,6 +497,13 @@ button.logout:hover {
   height: 40px;
   padding: 0 15px;
   white-space: nowrap;
+}
+
+.transaction-memo {
+  width: 100%;
+  margin-top: 10px;
+  color: #52677e;
+  overflow-wrap: anywhere;
 }
 
 /* 詳細画面 */
