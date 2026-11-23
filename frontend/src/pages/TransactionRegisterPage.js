@@ -289,14 +289,6 @@ function TransactionRegisterPage({ onMoveHome, onLogout }) {
                     >
                         {loading ? "登録中..." : "売買を登録する"}
                     </button>
-
-                    <button
-                        type="button"
-                        className="transaction-back-button"
-                        onClick={onMoveHome}
-                    >
-                        戻る
-                    </button>
                 </form>
             </main>
         </div>
