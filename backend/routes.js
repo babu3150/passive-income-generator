@@ -301,6 +301,48 @@ router.get("/stocks/search", async (req, res) => {
     }
 });
 
+// 売買履歴の取得
+router.get("/transactions", async (req, res) => {
+    // ログインユーザーを取得
+    const userId = req.session?.userId;
+
+    if (!userId) {
+        return res.status(401).json({
+            message: "ログインしてください",
+        });
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT
+                t.id AS transaction_id,
+                t.transaction_type,
+                t.quantity,
+                t.price,
+                t.fee,
+                t.traded_at,
+                t.memo,
+                s.code,
+                s.name
+            FROM transactions t
+            JOIN stocks s ON t.stock_id = s.id
+            WHERE t.user_id = $1
+            ORDER BY t.traded_at DESC, t.id DESC`,
+            [userId]
+        );
+
+        res.json({
+            transactions: result.rows,
+        });
+    } catch (error) {
+        console.error("売買履歴取得エラー：", error);
+
+        res.status(500).json({
+            message: "売買履歴の取得に失敗しました",
+        });
+    }
+});
+
 // 売買履歴の登録
 router.post("/transactions", async (req, res) => {
     // ログインユーザーを取得
