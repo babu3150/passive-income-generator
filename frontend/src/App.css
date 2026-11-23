@@ -832,28 +832,38 @@ button.logout:hover {
 /* 売買登録フォーム */
 .transaction-register-main {
   width: 90%;
-  max-width: 600px;
+  max-width: 830px;
   margin: 30px auto;
-  padding: 24px;
+  padding: 20px 0;
   box-sizing: border-box;
-  background: #252b35;
-  border: 1px solid #555;
-  border-radius: 10px;
+  color: #20364f;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .transaction-register-main h2 {
-  margin-bottom: 24px;
-  text-align: center;
+  margin-bottom: 12px;
+  color: #20364f;
+  font-size: 26px;
+  text-align: left;
+}
+
+.transaction-description {
+  margin-bottom: 25px;
+  color: #34495e;
 }
 
 .transaction-form-group {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .transaction-form-group label {
   display: block;
   margin-bottom: 8px;
+  color: #20364f;
   font-weight: bold;
 }
 
@@ -861,16 +871,23 @@ button.logout:hover {
 .transaction-form-group textarea {
   box-sizing: border-box;
   width: 100%;
-  padding: 10px;
-  color: #fff;
-  background: #343c49;
-  border: 1px solid #777;
+  padding: 12px;
+  color: #20364f;
+  background: #fff;
+  border: 1px solid #b5c5d8;
   border-radius: 5px;
 }
 
 .transaction-form-group textarea {
-  min-height: 80px;
+  min-height: 100px;
   resize: vertical;
+}
+
+.transaction-form-group input:focus,
+.transaction-form-group textarea:focus {
+  outline: none;
+  border-color: #3985c8;
+  box-shadow: 0 0 4px rgba(57, 133, 200, 0.4);
 }
 
 .transaction-stock-results {
@@ -882,15 +899,15 @@ button.logout:hover {
   margin: 4px 0 0;
   overflow-y: auto;
   list-style: none;
-  background: #343c49;
-  border: 1px solid #777;
+  background: #fff;
+  border: 1px solid #b5c5d8;
   border-radius: 5px;
 }
 
 .transaction-stock-results li button {
   width: 100%;
   padding: 10px;
-  color: #fff;
+  color: #20364f;
   text-align: left;
   background: transparent;
   border: none;
@@ -898,42 +915,48 @@ button.logout:hover {
 }
 
 .transaction-stock-results li button:hover {
-  background: #4b586a;
+  background: #eaf3fc;
 }
 
 .transaction-selected-stock {
-  color: #8ed8ff;
+  color: #2675ad;
 }
 
 .transaction-type-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .transaction-type-buttons button {
   flex: 1;
-  padding: 10px;
-  color: #fff;
-  background: #454e5c;
-  border: 1px solid #777;
+  padding: 12px;
+  color: #34495e;
+  background: #fff;
+  border: 1px solid #b5c5d8;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .transaction-type-buttons button.active {
-  background: #2675ad;
-  border-color: #5ba9e5;
+  color: #fff;
+  background: #3985c8;
+  border-color: #3985c8;
 }
 
 .transaction-register-main .transaction-submit-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
+  width: auto;
+  min-width: 180px;
+  padding: 12px 25px;
+  margin-top: 5px;
   color: #fff;
-  background: #2675ad;
+  background: #3985c8;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.transaction-register-main .transaction-submit-button:hover {
+  background: #286da9;
 }
 
 .transaction-register-main .transaction-submit-button:disabled {
@@ -942,11 +965,11 @@ button.logout:hover {
 }
 
 .transaction-error {
-  color: #ff7777;
+  color: #d93030;
 }
 
 .transaction-success {
-  color: #8be0a0;
+  color: #198754;
 }
 
 /* スマホ幅用 */
@@ -1108,8 +1131,15 @@ button.logout:hover {
   }
 
   .transaction-register-main {
-    width: auto;
-    margin: 15px;
-    padding: 18px;
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .transaction-register-main h2 {
+    font-size: 22px;
+  }
+
+  .transaction-register-main .transaction-submit-button {
+    width: 100%;
   }
 }
