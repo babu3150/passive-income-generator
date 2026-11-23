@@ -7,6 +7,10 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const [transactions, setTransactions] = useState([]);
+    const [transactionsLoading, setTransactionsLoading] = useState(true);
+    const [transactionsError, setTransactionsError] = useState("");
+
     // 銘柄の推奨情報をAPIから取得
     useEffect(() => {
         const fetchRecommendations = async () => {
@@ -31,6 +35,30 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
         };
 
         fetchRecommendations();
+    }, []);
+
+    // 売買履歴をAPIから取得
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                const response = await fetch("/api/transactions");
+
+                if (!response.ok) {
+                    throw new Error("売買履歴の取得に失敗しました");
+                }
+
+                const data = await response.json();
+
+                setTransactions(data.transactions || []);
+            } catch (error) {
+                console.error("売買履歴取得エラー：", error);
+                setTransactionsError(error.message);
+            } finally {
+                setTransactionsLoading(false);
+            }
+        };
+
+        fetchTransactions();
     }, []);
 
     // スコアが最も高い銘柄を取得
