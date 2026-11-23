@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function TransactionRegisterPage({ onMoveHome, onLogout }) {
     const [searchText, setSearchText] = useState("");
@@ -21,6 +21,15 @@ function TransactionRegisterPage({ onMoveHome, onLogout }) {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // 画面を最上部にスクロール
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant"
+        });
+    });
 
     // 銘柄検索
     const handleSearch = async (value) => {
