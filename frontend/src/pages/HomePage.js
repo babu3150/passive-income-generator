@@ -216,7 +216,7 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
 
                 <div className="portfolio-header">
                     <h2 className="section-title">
-                        💰{loginUser?.username}さんの保有株
+                        💰{loginUser?.username}さんの売買履歴
                     </h2>
 
                     <button
@@ -234,39 +234,64 @@ function HomePage({ onLogout, onMoveStockSearch, onSelectStock, onMoveTransactio
                 ) : transactions.length === 0 ? (
                     <p>まだ売買履歴が登録されていません</p>
                 ) : (
-                    <div className="holdings-list">
+                    <div className="transaction-history-list">
                         {transactions.map((transaction) => (
-                            <div className="holding-item" key={transaction.transaction_id}>
-                                <div className="holding-stock-info">
-                                    <strong className="holding-stock-name">
-                                        {transaction.name} ({transaction.code})
-                                    </strong>
+                            <div className="transaction-history-item" key={transaction.transaction_id}>
+                                {/* 銘柄名・取引区分・日時 */}
+                                <div className="transaction-history-info">
+                                    <div className="transaction-history-title">
+                                        <strong>
+                                            {transaction.name} ({transaction.code})
+                                        </strong>
 
-                                    <span>
-                                        {transaction.transaction_type === "BUY"
-                                            ? "🟢 購入"
-                                            : "🔴 売却"}
-                                    </span>
+                                        <span
+                                            className={`transaction-type-label ${
+                                                transaction.transaction_type === "BUY"
+                                                    ? "buy"
+                                                    : "sell"
+                                            }`}
+                                        >
+                                            {transaction.transaction_type === "BUY"
+                                                ? "🟢 購入"
+                                                : "🔴 売却"}
+                                        </span>
+                                    </div>
 
-                                    <span>
+                                    <span className="transaction-history-date">
                                         {formatTransactionDate(transaction.traded_at)}
                                     </span>
                                 </div>
 
-                                <div className="holding-status">
-                                    {Number(transaction.quantity).toLocaleString("ja-JP")}株
-                                    x {formatTransactionPrice(transaction.price)}円
+                                {/* 数量・価格・手数料 */}
+                                <div className="transaction-history-details">
+                                    <div>
+                                        <span>数量</span>
+                                        <strong>
+                                            {Number(transaction.quantity).toLocaleString("ja-JP")}株
+                                        </strong>
+                                    </div>
 
                                     <div>
-                                        手数料：
-                                        {formatTransactionPrice(transaction.fee)}円
+                                        <span>約定価格</span>
+                                        <strong>
+                                            {formatTransactionPrice(transaction.price)}円
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>手数料</span>
+                                        <strong>
+                                            {formatTransactionPrice(transaction.fee)}円
+                                        </strong>
                                     </div>
                                 </div>
 
+                                {/* メモ */}
                                 {transaction.memo && (
-                                    <p className="transaction-memo">
-                                        メモ：{transaction.memo}
-                                    </p>
+                                    <div className="transaction-history-memo">
+                                        <span>メモ：</span>
+                                        {transaction.memo}
+                                    </div>
                                 )}
                             </div>
                         ))}
